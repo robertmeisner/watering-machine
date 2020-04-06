@@ -1,0 +1,396 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+abstract class ButtonStateMachine {
+	+~ButtonStateMachine()
+	+isPressed() : bool
+	+getState() : int
+	-{abstract} nextState(int p) : int
+	+state : int
+}
+
+
+class IdleState {
+	+IdleState()
+	+IdleState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class Light {
+	+Light(bool onFunc(), bool offFunc(), bool initFunc())
+	+state : SwitchStates
+	+init() : bool
+	+isOn() : bool
+	-restartTimer() : bool
+	+turnOff() : bool
+	+turnOn() : bool
+	+getDurationSinceLastChange() : unsigned long
+	-sinceLastChangeChrono : unsigned long
+}
+
+
+class LightingState {
+	+LightingState()
+	+LightingState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class MechanicalButton {
+	+MechanicalButton(int pin, ButtonModes mode)
+	+init() : bool
+	+tick() : bool
+	+buttonMode : int
+	-nextState(int p) : int
+	-_pin : uint8_t
+	+handleInterrupt(void) : void
+	+setupInterruptHandler(uint8_t irq_pin, void(*interruptFunction)(void), int value) : void
+}
+
+
+class MoistureSensor {
+	+MoistureSensor(float readFunc(), bool initFunc())
+	#state : MoistureSensorStates
+	+init() : bool
+	+tick() : bool
+	#_initFunc : bool (* ) ( )
+	#_moistureReadings : float
+	+read() : float
+	+readAvg() : float
+	#_readFunc : float (* ) ( )
+	#_moistureReadingNumber : int
+	#nextState(int command) : int
+}
+
+
+abstract class MotorStateMachine {
+	+~MotorStateMachine()
+	+{abstract} changeSpeed(int speed) : bool
+	+{abstract} start(int speed) : bool
+	+{abstract} stop() : bool
+	#nextState(int command) : int
+	+state : int
+}
+
+
+class PulsePump {
+	+PulsePump(bool(*startFunc)(), bool(*stopFunc)(), bool(*initFunc)())
+	#isPulsing : bool
+	#pulse() : bool
+	#pulsePause() : bool
+	+start() : bool
+	+tick() : bool
+	#lastPulseChange : unsigned
+	#pulseDuration : unsigned long
+	#pulseInterval : unsigned long
+}
+
+
+abstract class PumpStateMachine {
+	+~PumpStateMachine()
+	+{abstract} start() : bool
+	+{abstract} stop() : bool
+	#nextState(int command) : int
+	+state : int
+}
+
+
+class SimpleMotor {
+	+SimpleMotor(bool(*startFunc)(int), bool(*stopFunc)(), bool(*changeSpeedFunc)(int), bool(*initFunc)(), int initialSpeed)
+	+changeSpeed(int speed) : bool
+	+init() : bool
+	+start(int speed) : bool
+	+stop() : bool
+	#_initFunc : bool (* ) ( )
+	#_stopFunc : bool (* ) ( )
+	#_changeSpeedFunc : bool (* ) ( int )
+	#_startFunc : bool (* ) ( int )
+	#_speed : int
+	+getDurationSinceLastChange() : unsigned long
+	#sinceLastChangeChrono : unsigned long
+}
+
+
+class SimplePump {
+	+SimplePump(bool(*startFunc)(), bool(*stopFunc)(), bool(*initFunc)())
+	+init() : bool
+	+start() : bool
+	+stop() : bool
+	+tick() : bool
+	#_initFunc : bool (* ) ( )
+	#_startFunc : bool (* ) ( )
+	#_stopFunc : bool (* ) ( )
+	+getDurationSinceLastChange() : unsigned long
+	#sinceLastChangeChrono : unsigned long
+}
+
+
+class SimpleSwitch {
+	+SimpleSwitch(bool onFunc(), bool offFunc(), bool initFunc())
+	+init() : bool
+	+tick() : bool
+	+turnOff() : bool
+	+turnOn() : bool
+	#_initFunc : bool (* ) ( )
+	#_offFunc : bool (* ) ( )
+	#_onFunc : bool (* ) ( )
+}
+
+
+class StateFactory {
+	+StateFactory()
+	+getState(StateType type, WateringMachine* m) : WateringMachineStateBase*
+}
+
+
+abstract class StateMachine {
+	+~StateMachine()
+	+{abstract} init() : bool
+	+{abstract} tick() : bool
+	#{abstract} nextState(int command) : int
+	+state : int
+}
+
+
+abstract class SwitchStateMachine {
+	+SwitchStateMachine()
+	+~SwitchStateMachine()
+	+{abstract} turnOff() : bool
+	+{abstract} turnOn() : bool
+	#nextState(int command) : int
+	+state : int
+}
+
+
+class WateringMachine {
+	+WateringMachine(WateringMachineConfig& doc, StateFactory& sf, Light& l, SimplePump& sp, std::vector<MoistureSensor>& moistureSensors)
+	+light : Light&
+	+pump : SimplePump&
+	+stateFactory : StateFactory&
+	+setState(StateType type) : WateringMachine*
+	+config : WateringMachineConfig&
+	+state : WateringMachineStateBase*
+	+init() : bool
+	+getMoistureAvg() : float
+	+moistureSensors : std::vector<MoistureSensor>&
+	+tick() : void
+	+turnIdle() : void
+	+turnLight() : void
+	+turnWatering() : void
+}
+
+
+class WateringMachineConfig {
+	+LIGHTING_DURATION : unsigned long
+	+LIGHTING_INTERVAL : unsigned long
+	+MOISTURE_MEASUREMENT_INTERVAL : unsigned long
+	+MOISTURE_TRESHOLD : unsigned long
+	+WATERING_MAX_DURATION : unsigned long
+	+WATERING_MAX_INTERVAL : unsigned long
+	+WATERING_MIN_INTERVAL : unsigned long
+	+WATERING_STOP_TRESHOLD : unsigned long
+}
+
+
+class WateringMachineStateBase {
+	+WateringMachineStateBase()
+	+WateringMachineStateBase(WateringMachine* context)
+	+~WateringMachineStateBase()
+	+type : StateType
+	#context : WateringMachine*
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+setContext(WateringMachine* context) : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class WateringState {
+	+WateringState()
+	+WateringState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleMoistureReading() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+	#sensorsAverage : int
+}
+
+
+enum ButtonCommand {
+	COMMAND_PRESSED
+	COMMAND_RELEASED
+}
+
+
+enum ButtonModes {
+	MODE_PULLDOWN
+	MODE_PULLUP
+}
+
+
+enum ButtonStates {
+	STATE_CLOSED
+	STATE_IS_FALLING
+	STATE_OPEN
+	STATE_RISING
+}
+
+
+enum MoistureSensorCommand {
+	COMMAND_FINISHED_READ
+	COMMAND_READ
+}
+
+
+enum MoistureSensorStates {
+	STATE_IDLE
+	STATE_READING
+}
+
+
+enum MotorCommand {
+	COMMAND_START
+	COMMAND_STOP
+}
+
+
+enum MotorStates {
+	STATE_OFF
+	STATE_ON
+}
+
+
+enum PumpCommand {
+	COMMAND_START
+	COMMAND_STOP
+}
+
+
+enum PumpStates {
+	STATE_OFF
+	STATE_ON
+}
+
+
+enum StateType {
+	IDLE_STATE
+	LIGHTING_STATE
+	UNDEFINED_STATE
+	WATERING_STATE
+}
+
+
+enum SwitchCommand {
+	COMMAND_OFF
+	COMMAND_ON
+}
+
+
+enum SwitchStates {
+	SWITCH_OFF
+	SWITCH_ON
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+ButtonStateMachine <|-- MechanicalButton
+
+
+MotorStateMachine <|-- SimpleMotor
+
+
+PumpStateMachine <|-- SimplePump
+
+
+SimplePump <|-- PulsePump
+
+
+SimpleSwitch <|-- Light
+
+
+StateMachine <|-- ButtonStateMachine
+
+
+StateMachine <|-- MoistureSensor
+
+
+StateMachine <|-- MotorStateMachine
+
+
+StateMachine <|-- PumpStateMachine
+
+
+StateMachine <|-- SwitchStateMachine
+
+
+SwitchStateMachine <|-- SimpleSwitch
+
+
+WateringMachineStateBase <|-- IdleState
+
+
+WateringMachineStateBase <|-- LightingState
+
+
+WateringMachineStateBase <|-- WateringState
+
+
+
+
+
+/' Aggregation relationships '/
+
+WateringMachine *-- Light
+
+
+WateringMachine *-- MoistureSensor
+
+
+WateringMachine *-- SimplePump
+
+
+WateringMachine *-- StateFactory
+
+
+WateringMachine *-- WateringMachineConfig
+
+
+WateringMachine o-- WateringMachineStateBase
+
+
+WateringMachineStateBase o-- WateringMachine
+
+
+
+
+
+@enduml

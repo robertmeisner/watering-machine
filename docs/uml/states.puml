@@ -1,0 +1,102 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+class IdleState {
+	+IdleState()
+	+IdleState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class LightingState {
+	+LightingState()
+	+LightingState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class StateFactory {
+	+StateFactory()
+	+getState(StateType type, WateringMachine* m) : WateringMachineStateBase*
+}
+
+
+class WateringMachineStateBase {
+	+WateringMachineStateBase()
+	+WateringMachineStateBase(WateringMachine* context)
+	+~WateringMachineStateBase()
+	+type : StateType
+	#context : WateringMachine*
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+setContext(WateringMachine* context) : bool
+	+tick() : bool
+	+getName() : char*
+}
+
+
+class WateringState {
+	+WateringState()
+	+WateringState(WateringMachine* wm)
+	+type : StateType
+	+handleIdle() : bool
+	+handleLighting() : bool
+	+handleMoistureReading() : bool
+	+handleWatering() : bool
+	+init() : bool
+	+tick() : bool
+	+getName() : char*
+	#sensorsAverage : int
+}
+
+
+enum StateType {
+	IDLE_STATE
+	LIGHTING_STATE
+	UNDEFINED_STATE
+	WATERING_STATE
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+WateringMachineStateBase <|-- IdleState
+
+
+WateringMachineStateBase <|-- LightingState
+
+
+WateringMachineStateBase <|-- WateringState
+
+
+
+
+
+/' Aggregation relationships '/
+
+
+
+
+@enduml

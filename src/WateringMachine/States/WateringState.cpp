@@ -48,6 +48,7 @@ bool WateringState::init()
         return this->handleIdle();
     }
     cLog("Initiating of the WateringState has finished");
+    return true;
 }
 bool WateringState::tick()
 {
@@ -56,7 +57,7 @@ bool WateringState::tick()
     // read moisture
 
     float sensorsAvg = this->context->getMoistureAvg();
-    //if avg moisture is higher than XXX stop Watering
+    //if avg moisture is higher than WATERING_STOP_TRESHOLD stop Watering and go Idle
     if (sensorsAvg > (this->context->config.WATERING_STOP_TRESHOLD))
     {
         cLog(String("Moisture is over WATERING_STOP_TRESHOLD: ") + String(sensorsAvg) + ">" + String(this->context->config.WATERING_STOP_TRESHOLD), DebugLevel::DEBUG);
@@ -66,10 +67,12 @@ bool WateringState::tick()
     }
     else if (this->context->pump.getDurationSinceLastChange() > this->context->config.WATERING_MAX_DURATION)
     {
-        cLog(String("Watering takes too long. Pump duration:") + String(this->context->pump.getDurationSinceLastChange()) + ">WATERING_MAX_DURATION:" + this->context->config.WATERING_MAX_DURATION, DebugLevel::DEBUG);
+        cLog(String("Watering takes too long. Watering duration is over WATERING_MAX_DURATION:") + String(this->context->pump.getDurationSinceLastChange()) + ">" + this->context->config.WATERING_MAX_DURATION, DebugLevel::DEBUG);
         cLog("Stopping Watering");
         return this->handleIdle();
     }
-    cLog(String("Moisture sensor is between MOISTURE_TRESHOLD and WATERING_STOP_TRESHOLD: ") + this->context->config.WATERING_STOP_TRESHOLD + String(">") + sensorsAvg + String("<") + this->context->config.MOISTURE_TRESHOLD, DebugLevel::DEBUG);
-    cLog("Watering State tick finished", DebugLevel::DEBUG);
+    String str=String("Moisture sensor is below WATERING_STOP_TRESHOLD: ")  + sensorsAvg + String("<") + this->context->config.WATERING_STOP_TRESHOLD;
+    str+=" "+String("Watering duration is below WATERING_MAX_DURATION ") + this->context->pump.getDurationSinceLastChange() + String("<") + sensorsAvg + String("<") + this->context->config.WATERING_MAX_DURATION;
+    cLog(str, DebugLevel::DEBUG);
+    return true;
 }

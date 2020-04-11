@@ -20,7 +20,7 @@ protected:
     bool pulsePause();
     bool isPulsing = false;
     unsigned lastPulseChange = 0;
-    unsigned long pulseDuration = 1000 * 10;
+    unsigned long pulseDuration = 1000 * 7;
     unsigned long pulseInterval = 1000 * 3;
 };
 

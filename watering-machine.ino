@@ -55,12 +55,12 @@ void setup()
     Serial.begin(115200);
     cLog("Setting up the Watering Machine");
     const unsigned long ONE_HOUR = 1000 * 60 * 60;
-    config.LIGHTING_DURATION = ONE_HOUR * 8;
-    config.LIGHTING_INTERVAL = ONE_HOUR * 16;
-    config.WATERING_MAX_DURATION = ONE_HOUR /2;
-    config.WATERING_MAX_INTERVAL = ONE_HOUR * 24 * 7;
+    config.LIGHTING_DURATION = ONE_HOUR * 12;
+    config.LIGHTING_INTERVAL = ONE_HOUR * 12;
+    config.WATERING_MAX_DURATION = ONE_HOUR;
+    config.WATERING_MAX_INTERVAL = ONE_HOUR * 24 * 6;
     config.WATERING_MIN_INTERVAL = ONE_HOUR;
-    config.MOISTURE_TRESHOLD = 52;
+    config.MOISTURE_TRESHOLD = 45;
     config.WATERING_STOP_TRESHOLD = 80;
     cLog("Adding sensors");
     static std::vector<MoistureSensor> sensors;

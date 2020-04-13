@@ -2,7 +2,6 @@
 #include "src/WateringMachine/Components/PulsePump.h"
 #include "src/WateringMachine/Components/Light.h"
 #include "src/WateringMachine/Components/MoistureSensor.h"
-#include "src/WateringMachine/Components/MechanicalButton.h"
 #include "src/WateringMachine/Utils/CustomLog.h"
 #include "src/WateringMachine/WateringMachine.h"
 #include "src/WateringMachine/WateringMachineConfig.h"
@@ -20,7 +19,7 @@ WateringMachine *wateringMachine;
 static PulsePump pump(startPumpFunc, stopPumpFunc, initPumpFunc); //static so they wont be deleted after setup is detroyed
 static Light light(lightOnFunc, lightOffFunc, lightInitFunc);
 /**
- * 
+ * Logic for each command.
  * @param  {char*} commandLine : 
  * @return {bool}              : 
  */

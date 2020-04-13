@@ -8,7 +8,6 @@
 #ifndef MoistureSensor_h
 #define MoistureSensor_h
 #define MOISTURE_READINGS_COUNT 8
-#define MOISTURE_READINGS_
 enum MoistureSensorStates
 {
   STATE_READING,
@@ -19,13 +18,28 @@ enum MoistureSensorCommand
   COMMAND_READ,
   COMMAND_FINISHED_READ
 };
-
+/**
+ * Moisture sensor allows you to read single moisture level or mean value of last 8 readings.
+ */
 class MoistureSensor : StateMachine
 {
 public:
+  /**
+   * MoistureSensor constructor
+   * 
+   * @param  {float} readFunc() : function used to perform single moisture reading
+   * @param  {bool} initFunc()  : function used to inititalize the sensor.
+   */
   MoistureSensor(float readFunc(), bool initFunc() = nullptr);
-
+  /**
+   * Reads moisture using rovided_readFunc() and returns single Moisture reading.
+   * @return {float}  : last single Moisture reading;
+   */
   float read();
+  /**
+   * reads a moisture level and returns mean value of last 8 moisture readings.
+   * @return {float}  : Mean value of last 8 readings
+   */
   float readAvg();
   bool init();
   bool tick();

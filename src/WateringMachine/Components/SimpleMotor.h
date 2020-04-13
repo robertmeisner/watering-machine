@@ -7,10 +7,21 @@
 #ifndef SimpleMotors_h
 #include "StateMachineInterfaces/MotorStateMachine.h"
 #define SimpleMotors_h
-
+/**
+ * 
+ */
 class SimpleMotor : public MotorStateMachine
 {
 public:
+  /**
+   * SimpleMotor 
+   * 
+   * @param  {bool(*)(int)} startFunc       : function used to start the device
+   * @param  {bool(*)()} stopFunc           : function used to stop the device
+   * @param  {bool(*)(int)} changeSpeedFunc : function used to change speed of the device
+   * @param  {bool(*)()=nullptr} initFunc   : function used for initiation of the device
+   * @param  {int} initialSpeed=100         : initial speed of the motor
+   */
   SimpleMotor(bool (*startFunc)(int),bool (*stopFunc)(),bool (*changeSpeedFunc)(int),bool (*initFunc)()=nullptr, int initialSpeed=100);
 
   bool start(int speed = 100);

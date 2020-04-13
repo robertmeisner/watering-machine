@@ -1,9 +1,3 @@
-/*
-  MoistureSensor.h - Library for flashing Morse code.
-  Created by Robert Meisner, November 2, 2007.
-  Released into the public domain.
-*/
-
 #ifndef SimplePumps_h
 #include "StateMachineInterfaces/PumpStateMachine.h"
 #define SimplePumps_h
@@ -11,6 +5,13 @@
 class SimplePump : public PumpStateMachine
 {
 public:
+  /**
+   * SimplePump 
+   * 
+   * @param  {bool(*)()} startFunc        : function used to start hte pump
+   * @param  {bool(*)()} stopFunc         : 
+   * @param  {bool(*)()=nullptr} initFunc : 
+   */
   SimplePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)() = nullptr);
 
   bool start();

@@ -2,13 +2,14 @@
 #define IDLE_STATE_H
 #include "WateringMachineStateBase.h"
 class WateringMachine;
-//#include "../WateringMachine.h"
+/**
+ * During Idle state Watering Machine is monitoring moisture and time since last watering or lighting and switches to other states if needed.
+ */
 class IdleState : public WateringMachineStateBase
 {
 public:
     IdleState();
     IdleState(WateringMachine *wm);
-    //using WateringMachineStateBase::WateringMachineStateBase;
     const char *getName();
     bool handleWatering();
     bool handleLighting();
@@ -18,6 +19,5 @@ public:
     StateType type = StateType::IDLE_STATE;
 
 protected:
-    //WateringMachine context;
 };
 #endif

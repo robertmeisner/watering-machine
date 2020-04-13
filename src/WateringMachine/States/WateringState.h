@@ -1,15 +1,15 @@
 #ifndef WATERING_STATE_H
 #define WATERING_STATE_H
 #include "WateringMachineStateBase.h"
-
-//#include "../WateringMachine.h"
 class WateringMachine;
+/**
+ * During Watering state pumps are turned on until defined moisture thresholds are met.
+ */
 class WateringState : public WateringMachineStateBase
 {
 public:
     WateringState();
     WateringState(WateringMachine *wm);
-    //using WateringMachineStateBase::WateringMachineStateBase;
     const char *getName();
     bool handleWatering();
     bool handleLighting();
@@ -20,6 +20,5 @@ public:
     StateType type = StateType::WATERING_STATE;
 
 protected:
-    int sensorsAverage = 100;
 };
 #endif

@@ -14,26 +14,60 @@ class MoistureSensor;
 class SimplePump;
 class StateFactory;
 
+/**
+ * Watering Machine main  class. 
+ * 
+ * Follows the State Design pattern.
+ * Watering Machine can be in one of 3 states:
+ * @see IdleState class
+ * @see WateringState class
+ * @see LightingState class
+ * Check state classes implementation to see the state's logic.
+ * 
+ * Watering Machine contains components which are used to interface with hardware (e.g. pumps, lights, sensors).
+ */
 class WateringMachine
 {
 public:
     /**
-     * WateringMachine 
-     * saadsadasd
-     * asdasdasdasdsa
-     * sad
-     * @param  {WateringMachineConfig} doc                   : 
-     * @param  {StateFactory} sf                             : 
-     * @param  {Light} l                                     : 
-     * @param  {SimplePump} sp                               : 
-     * @param  {std::vector<MoistureSensor>} moistureSensors : 
+     * WateringMachine constructor
+     * @param  {WateringMachineConfig} doc                   : Config
+     * @param  {StateFactory} sf                             : State factory class
+     * @param  {Light} l                                     : Light component
+     * @param  {SimplePump} sp                               : Pump component
+     * @param  {std::vector<MoistureSensor>} moistureSensors : Vector of moisture sensor components
      */
     WateringMachine(WateringMachineConfig &doc, StateFactory &sf, Light &l, SimplePump &sp, std::vector<MoistureSensor> &moistureSensors);
-    void turnLight();
-    void turnIdle();
-    void turnWatering();
+
+    /**
+     * Attempts to change current state to Lighting.
+     * @return {bool}  : 
+     */
+    bool turnLight();
+    /**
+     * Attempts to change current state to Idle.
+     * @return {bool}  : 
+     */
+    bool turnIdle();
+    /**
+     * Attempts to change current state to Watering.
+     * @return {bool}  : 
+     */
+    bool turnWatering();
+    /**
+     * Initiates current state and all components.
+     * @return {bool}  : 
+     */
     bool init();
-    void tick();
+    /**
+    * Runs tick methods of state and all components.
+    */
+    bool tick();
+
+    /**
+     * Returns mean value of moisture level from all sensors
+     * @return {float}  : moisture level. value from 0 to 100;
+     */
     float getMoistureAvg();
     WateringMachine *setState(StateType type);
     WateringMachineStateBase *state;

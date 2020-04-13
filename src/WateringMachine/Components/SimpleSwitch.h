@@ -1,15 +1,20 @@
-/*
-  MoistureSensor.h - Library for flashing Morse code.
-  Created by Robert Meisner, November 2, 2007.
-  Released into the public domain.
-*/
+
 #ifndef SimpleSwitch_h
 #include "StateMachineInterfaces/SwitchStateMachine.h"
 #define SimpleSwitch_h
-
+/**
+ * 
+ */
 class SimpleSwitch : public SwitchStateMachine
 {
 public:
+  /**
+   * SimpleSwitch 
+   * 
+   * @param  {bool} onFunc()   : 
+   * @param  {bool} offFunc()  : 
+   * @param  {bool} initFunc() : 
+   */
   SimpleSwitch(bool onFunc(), bool offFunc(), bool initFunc() = nullptr);
   bool init();
   bool tick(){};

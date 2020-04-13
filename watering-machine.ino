@@ -14,12 +14,16 @@
 #include "src/Firmware/Arduino/ControlFunctions.v1.h"
 #endif
 
+// config object inistated
 WateringMachineConfig config;
+// pointer to WateringMachine
 WateringMachine *wateringMachine;
+// create pump object
 static PulsePump pump(startPumpFunc, stopPumpFunc, initPumpFunc); //static so they wont be deleted after setup is detroyed
+// create light object
 static Light light(lightOnFunc, lightOffFunc, lightInitFunc);
 /**
- * Logic for each command.
+ * Logic of each command.
  * @param  {char*} commandLine : 
  * @return {bool}              : 
  */
@@ -46,7 +50,7 @@ bool serialCommand(char *commandLine)
     return true;
 }
 /**
- * 
+ * Arduno setup function
  */
 void setup()
 {
@@ -63,24 +67,23 @@ void setup()
     config.WATERING_STOP_TRESHOLD = 80;
     cLog("Adding sensors");
     static std::vector<MoistureSensor> sensors;
-    sensors.push_back(MoistureSensor(Sensor1ReadFunc, sensorInitFunc)); //strange object creation
+    sensors.push_back(MoistureSensor(Sensor1ReadFunc, sensorInitFunc));
     sensors.push_back(MoistureSensor(Sensor2ReadFunc, sensorInitFunc));
     static StateFactory sf;
     cLog("Creating WateringMachine object");
-    wateringMachine = new WateringMachine(config, sf, light, pump, sensors); //how to apss sf by reference when no parameters?
+    wateringMachine = new WateringMachine(config, sf, light, pump, sensors);
     cLog("Initiating WateringMachine object");
     wateringMachine->init();
     cLog("Setting up has finished");
 };
 /**
- * 
+ * Arduino loop function
  */
 void loop()
 {
     bool received = getCommandLineFromSerialPort(CommandLine); //global CommandLine is defined in CommandLine.h
     if (received)
-        serialCommand(CommandLine);
-
+        serialCommand(CommandLine); // execute the command
     wateringMachine->tick();
     delay(5000);
 };

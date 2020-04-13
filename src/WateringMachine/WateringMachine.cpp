@@ -11,15 +11,15 @@
 WateringMachine::WateringMachine(WateringMachineConfig &doc, StateFactory &sf, Light &l, SimplePump &sp, std::vector<MoistureSensor> &ms) : config(doc), stateFactory(sf), light(l), pump(sp), moistureSensors(ms)
 {
 }
-void WateringMachine::turnLight()
+bool WateringMachine::turnLight()
 {
     this->state->handleLighting();
 }
-void WateringMachine::turnIdle()
+bool WateringMachine::turnIdle()
 {
     this->state->handleIdle();
 }
-void WateringMachine::turnWatering()
+bool WateringMachine::turnWatering()
 {
     this->state->handleWatering();
 }
@@ -59,7 +59,7 @@ bool WateringMachine::init()
     //set initital state
     this->setState(StateType::IDLE_STATE); //init juz tutaj ma miejsce
 }
-void WateringMachine::tick()
+bool WateringMachine::tick()
 {
     this->light.tick();
     for (std::vector<MoistureSensor>::iterator it = this->moistureSensors.begin(); it != this->moistureSensors.end(); ++it)

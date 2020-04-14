@@ -26,6 +26,12 @@ static int sensorLowerLimit2 = 10500;
 #define MOISTURE_SENSOR_SAMPLES 5
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
+
+#define PUMP_PIN 14
+#define LIGHTS_PIN 13
+#define SENSOR1_PIN 0
+#define SENSOR2_PIN 1
+
 bool sensorInitFunc()
 {
     if (!sensorsInitiated)
@@ -65,43 +71,43 @@ float _readAds(int pin, String sensorName = "")
 
 float Sensor1ReadFunc()
 {
-    return _readAds(0, "Sensor #1");
+    return _readAds(SENSOR1_PIN, "Sensor #1");
 }
 float Sensor2ReadFunc()
 {
-    return _readAds(1, "Sensor #2");
+    return _readAds(SENSOR2_PIN, "Sensor #2");
 }
 
 bool startPumpFunc()
 {
-    digitalWrite(14, LOW);
+    digitalWrite(PUMP_PIN, LOW);
     return true;
 }
 bool stopPumpFunc()
 {
-    digitalWrite(14, HIGH);
+    digitalWrite(PUMP_PIN, HIGH);
     return true;
 }
 bool initPumpFunc()
 {
-    pinMode(14, OUTPUT);
+    pinMode(PUMP_PIN, OUTPUT);
     stopPumpFunc();
     return true;
 }
 
 bool lightOnFunc()
 {
-    digitalWrite(13, LOW);
+    digitalWrite(LIGHTS_PIN, LOW);
     return true;
 }
 bool lightOffFunc()
 {
-    digitalWrite(13, HIGH);
+    digitalWrite(LIGHTS_PIN, HIGH);
     return true;
 }
 bool lightInitFunc()
 {
-    pinMode(13, OUTPUT);
+    pinMode(LIGHTS_PIN, OUTPUT);
     lightOffFunc();
     return true;
 }

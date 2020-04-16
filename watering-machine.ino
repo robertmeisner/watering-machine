@@ -63,8 +63,8 @@ void setup()
     config.WATERING_MAX_DURATION = ONE_HOUR;
     config.WATERING_MAX_INTERVAL = ONE_HOUR * 24 * 6;
     config.WATERING_MIN_INTERVAL = ONE_HOUR;
-    config.MOISTURE_TRESHOLD = 45;
-    config.WATERING_STOP_TRESHOLD = 80;
+    config.MOISTURE_TRESHOLD = 60;
+    config.WATERING_STOP_TRESHOLD = 85;
     cLog("Adding sensors");
     static std::vector<MoistureSensor> sensors;
     sensors.push_back(MoistureSensor(Sensor1ReadFunc, sensorInitFunc));

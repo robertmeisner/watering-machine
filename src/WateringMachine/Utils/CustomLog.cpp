@@ -57,7 +57,7 @@ void cLog(const std::string &message, DebugLevel v /*=DebugLevel::INFO*/)
     Serial.println(str);
 }
 
-void cLogsetDebugLevel(DebugLevel v)
+void cLogSetDebugLevel(DebugLevel v)
 {
     currentDebugLevel = v;
 }

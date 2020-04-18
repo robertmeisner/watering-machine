@@ -19,9 +19,15 @@ Library aims to be platform agnostic (can be run on Arduino compatible devices: 
 Interface with physical layer is separated from Watering Machine "business" logic.
 Functions responsible for interfacing with physical infrastructure are injected into components upon their creation.
 
-### State diagram
+### States
 
-//TODO
+Watering Machine
+Change of states can be triggered with WateringMachine's commands:
+![Green Wall in your appartment](./docs/images/uml/state_diagram_commands.png)
+or when certain conditions are met:
+![Green Wall in your appartment](./docs/images/uml/state_diagram_events.png)
+
+Note: Lighting and Watering states are separate and cannot occur in parallel.
 
 ## Usage guide
 
@@ -53,6 +59,10 @@ setup(){
 
 ### Arduino
 
+#### Example Bill of material
+
+ESP8266 BoM with links
+
 #### Test/Evaluate/Understand the code
 
 1. Clone or download this repository
@@ -81,6 +91,7 @@ setup(){
 
 ## Project structure
 
+``` folder
 .
 ├── docs - documentation and other file assets (images, uml etc)
 ├── libraries - Here you can place some aditional libraries if needed
@@ -97,6 +108,7 @@ setup(){
 │       ├── WateringMachine.h - main control class of the Watering Machine
 │       └── WateringMachineConfig.h 
 └── watering-machine.ino - example Arduino sketch with fulll configuration
+```
 
 ## Improvements and changes
 

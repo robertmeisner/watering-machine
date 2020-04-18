@@ -19,10 +19,10 @@
 //ads.begin(1,0);                // for ESP8266  SDA, SCL can be specified
 static Adafruit_ADS1115 ads;
 static bool sensorsInitiated = false;
-static int sensorUpperLimit1 = 27000;
-static int sensorLowerLimit1 = 10300;
-static int sensorUpperLimit2 = 27300;
-static int sensorLowerLimit2 = 10500;
+static int sensorRawDryValue1 = 27000;
+static int sensorRawWetValue1 = 10300;
+static int sensorRawDryValue2 = 27300;
+static int sensorRawWetValue2 = 10500;
 #define MOISTURE_SENSOR_SAMPLES 5
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
@@ -58,13 +58,13 @@ float _readAds(int pin, String sensorName = "")
     Serial.println("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts));
     if (sensorName=="Sensor #1")
     {
-        adc = constrain(adc, sensorLowerLimit1, sensorUpperLimit1); // Keep the ranges!
-        adc = map(adc, sensorLowerLimit1, sensorUpperLimit1, 100, 0);
+        adc = constrain(adc, sensorRawWetValue1, sensorRawDryValue1); // Keep the ranges!
+        adc = map(adc, sensorRawWetValue1, sensorRawDryValue1, 100, 0);
     }
     else
     {
-        adc = constrain(adc, sensorLowerLimit2, sensorUpperLimit2); // Keep the ranges!
-        adc = map(adc, sensorLowerLimit2, sensorUpperLimit2, 100, 0);
+        adc = constrain(adc, sensorRawWetValue2, sensorRawDryValue2); // Keep the ranges!
+        adc = map(adc, sensorRawWetValue2, sensorRawDryValue2, 100, 0);
     }
     return adc;
 }

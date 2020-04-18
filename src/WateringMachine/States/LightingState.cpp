@@ -54,7 +54,7 @@ bool LightingState::init()
 };
 bool LightingState::tick()
 {
-
+    int sensorsAvg = this->context->getMoistureAvg();
     if (this->context->light.getDurationSinceLastChange() > this->context->config.LIGHTING_DURATION)
     {
         cLog("Ligting duration exceeded the LIGHTING_DURATION: " + String(this->context->light.getDurationSinceLastChange()) + '>' + String(this->context->config.LIGHTING_DURATION));

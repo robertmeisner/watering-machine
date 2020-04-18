@@ -1,0 +1,10 @@
+@startuml
+hide empty description
+[*] --> IdleState
+IdleState -> WateringState : sensorsAvg < MOISTURE_TRESHOLD && \n pump.timeSinceChanged()>WATERING_MIN_INTERVAL 
+IdleState -> WateringState : pump.timeSinceChanged() > WATERING_MAX_INTERVAL 
+IdleState -> LightingState : light.timeSinceChanged() > LIGHTING_INTERVAL
+WateringState --> IdleState : sensorsAvg > WATERING_STOP_TRESHOLD
+WateringState --> LightingState : pump.timeSinceChanged() > WATERING_MAX_DURATION
+LightingState --> IdleState : light.timeSinceChanged() > LIGHTING_DURATION
+@enduml

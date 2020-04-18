@@ -4,15 +4,15 @@ Modular Watering Machine (Arduino compatible) which allows you to water your cro
 
 ## Introduction
 
-This repository contains a working library
+It's an automatic plant watering system or smart irrigation system.
 
-Allows you to:
+Main functionalities:
 
-- monitor soil moisture with multiple moisture sensors
-- water the plants on specified intervals
-- water plants when soil moisture gets below certain treshold
-- turn on grow lights on specified intervals and with specified duration
-- configure and adjust moisture/watering/lighting duration/tresholds
+- monitors soil moisture with multiple moisture sensors
+- waters the plants on specified intervals
+- waters plants when soil moisture gets below certain treshold
+- turns on grow lights on specified intervals and with specified duration
+- allows you to configure and adjust moisture/watering/lighting duration/tresholds
 
 Library aims to be platform agnostic (can be run on Arduino compatible devices: Arduino, ESP32, ESP8266, etc)
 

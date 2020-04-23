@@ -71,8 +71,8 @@ void setup()
     config.WATERING_MAX_DURATION = ONE_HOUR / 2;      // How long watering should last
     config.WATERING_MAX_INTERVAL = ONE_HOUR * 24 * 7; // Maximal interval between waterings. After that time, watering will start even if avarage moisture level from sensors is over the MOISTURE_TRESHOLD
     config.WATERING_MIN_INTERVAL = ONE_HOUR;          // Minimal interval between waterings. After watering is done it won't start again, before WATERING_MIN_INTERVAL has passed,even if avarage moisture level from sensors is below the MOISTURE_TRESHOLD
-    config.MOISTURE_TRESHOLD = 52;                    //if avarage moisture level from sensors is below the MOISTURE_TRESHOLD watering starts
-    config.WATERING_STOP_TRESHOLD = 80;               //watering will stop if avarage moisture level from sensors reaches that value
+    config.MOISTURE_TRESHOLD = 60;                    //if avarage moisture level from sensors is below the MOISTURE_TRESHOLD watering starts
+    config.WATERING_STOP_TRESHOLD = 90;               //watering will stop if avarage moisture level from sensors reaches that value
     cLog("Adding sensors");
     // Create sensor objects and add them to a vector
     static std::vector<MoistureSensor> sensors;

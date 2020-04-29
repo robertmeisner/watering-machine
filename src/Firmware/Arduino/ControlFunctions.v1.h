@@ -19,10 +19,10 @@
 //ads.begin(1,0);                // for ESP8266  SDA, SCL can be specified
 static Adafruit_ADS1115 ads;
 static bool sensorsInitiated = false;
-static int sensorRawDryValue1 = 27000;
-static int sensorRawWetValue1 = 10300;
-static int sensorRawDryValue2 = 27300;
-static int sensorRawWetValue2 = 10500;
+static int sensorRawDryValue1 = 26180;
+static int sensorRawWetValue1 = 11436;
+static int sensorRawDryValue2 = 26920;
+static int sensorRawWetValue2 = 11526;
 #define MOISTURE_SENSOR_SAMPLES 5
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN

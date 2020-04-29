@@ -1,6 +1,9 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
+// Include custom log library
+#include "../../WateringMachine/Utils/CustomLog.h"
+
 #ifndef ArduinoFunctions_h
 #define ArduinoFunctions_h
 // The ADC input range (or gain) can be changed via the following
@@ -19,10 +22,10 @@
 //ads.begin(1,0);                // for ESP8266  SDA, SCL can be specified
 static Adafruit_ADS1115 ads;
 static bool sensorsInitiated = false;
-static int sensorRawDryValue1 = 27000;
-static int sensorRawWetValue1 = 10300;
-static int sensorRawDryValue2 = 27300;
-static int sensorRawWetValue2 = 10500;
+static int sensorRawDryValue1 = 26180;
+static int sensorRawWetValue1 = 11436;
+static int sensorRawDryValue2 = 26920;
+static int sensorRawWetValue2 = 11526;
 #define MOISTURE_SENSOR_SAMPLES 5
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
@@ -53,10 +56,10 @@ float _readAds(int pin, String sensorName = "")
         delay(50);
     }
     adc = adc / MOISTURE_SENSOR_SAMPLES;
-    Serial.println("Moisture Sensor| " + sensorName + " Raw Value: " + String(adc));
+    cLog("Moisture Sensor| " + sensorName + " Raw Value: " + String(adc),DebugLevel::DEBUG);
     float volts = adc * ADS_SCALE_FACTOR;
-    Serial.println("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts));
-    if (sensorName=="Sensor #1")
+    cLog("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts),DebugLevel::DEBUG);
+    if (sensorName == "Sensor #1")
     {
         adc = constrain(adc, sensorRawWetValue1, sensorRawDryValue1); // Keep the ranges!
         adc = map(adc, sensorRawWetValue1, sensorRawDryValue1, 100, 0);

@@ -16,9 +16,10 @@ public:
      * @param  {bool(*)()} stopFunc         : 
      * @param  {bool(*)()=nullptr} initFunc : 
      */
-    PulsePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)() = nullptr);
+    PulsePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)() = nullptr, unsigned long _pulseDuration = 5000, unsigned long _pulseInterval = 5000);
     bool start();
     bool tick();
+
 protected:
     /**
      * Turns the pump on fot the duration equal to pulseDuration

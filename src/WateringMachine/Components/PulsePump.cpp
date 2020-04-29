@@ -5,9 +5,10 @@ bool PulsePumpInitMockFunc()
 {
     return true;
 }
-PulsePump::PulsePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)()) : SimplePump(startFunc, stopFunc, initFunc)
+PulsePump::PulsePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)(), unsigned long _pulseDuration, unsigned long _pulseInterval) : SimplePump(startFunc, stopFunc, initFunc), pulseDuration(_pulseDuration), pulseInterval(_pulseInterval)
 {
 }
+
 bool PulsePump::start()
 {
     this->isPulsing = true;
@@ -16,7 +17,6 @@ bool PulsePump::start()
 }
 bool PulsePump::tick()
 {
-
     if (this->state == PumpStates::STATE_ON)
     {
         if (this->isPulsing && (millis() - this->lastPulseChange) > this->pulseDuration)
@@ -34,13 +34,13 @@ bool PulsePump::pulse()
 {
     cLog("PulsePump is pulsing", DebugLevel::DEBUG);
     this->lastPulseChange = millis();
-    this->isPulsing=true;
+    this->isPulsing = true;
     return this->_startFunc();
 }
 bool PulsePump::pulsePause()
 {
     cLog("PulsePump is pausing", DebugLevel::DEBUG);
     this->lastPulseChange = millis();
-    this->isPulsing=false;
+    this->isPulsing = false;
     return this->_stopFunc();
 }

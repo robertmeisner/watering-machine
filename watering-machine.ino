@@ -97,7 +97,7 @@ void loop()
     bool received = getCommandLineFromSerialPort(CommandLine); //global CommandLine is defined in CommandLine.h
     if (received)
         serialCommand(CommandLine); // execute the command
-    // call tick function every time to handle WateringMachine logic
+    // call tick function handle WateringMachine logic
     wateringMachine->tick();
     // delay 5s
     delay(5000);

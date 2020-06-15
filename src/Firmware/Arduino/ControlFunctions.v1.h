@@ -26,7 +26,7 @@ static int sensorRawDryValue1 = 26180;
 static int sensorRawWetValue1 = 11436;
 static int sensorRawDryValue2 = 26920;
 static int sensorRawWetValue2 = 11526;
-#define MOISTURE_SENSOR_SAMPLES 5
+#define MOISTURE_SENSOR_SAMPLES 6
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
 

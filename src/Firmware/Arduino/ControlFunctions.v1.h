@@ -51,7 +51,7 @@ float _readAds(int pin, String sensorName = "")
     int sample_count = 0;
     //additional smoothing
     for (int i = 0; i <= MOISTURE_SENSOR_SAMPLES; i++)
-    {
+    { 
         adc += ads.readADC_SingleEnded(pin);
         delay(50);
     }

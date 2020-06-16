@@ -1,4 +1,6 @@
 #include "StateMachine.h"
+#ifndef PUMP_STATE_MACHINE_H
+#define PUMP_STATE_MACHINE_H
 enum PumpStates
 {
     STATE_OFF,
@@ -33,3 +35,4 @@ public:
 protected:
     int nextState(int command); 
 };
+#endif

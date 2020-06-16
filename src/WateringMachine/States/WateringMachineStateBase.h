@@ -51,7 +51,7 @@ public:
   virtual bool init();
   /**
    * Tick method simulates a passage of time.
-   * Enables to implement timers or timeouts.
+   * Enables implementation timers or timeouts.
    * @return {bool}  : 
    */
   virtual bool tick();

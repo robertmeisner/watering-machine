@@ -7,8 +7,9 @@
 #include "States/IdleState.h"
 #include "States/StateFactory.h"
 #include "Utils/CustomLog.h"
+#include "Midleware/MiddlewareInterface.h"
 
-WateringMachine::WateringMachine(WateringMachineConfig &doc, StateFactory &sf, Light &l, SimplePump &sp, std::vector<MoistureSensor> &ms) : config(doc), stateFactory(sf), light(l), pump(sp), moistureSensors(ms)
+WateringMachine::WateringMachine(WateringMachineConfig &doc, StateFactory &sf, Light &l, SimplePump &sp, std::vector<MoistureSensor> &ms, std::vector<MiddlewareInterface> &mdlwrs) : config(doc), stateFactory(sf), light(l), pump(sp), moistureSensors(ms), middlewares(mdlwrs)
 {
 }
 bool WateringMachine::turnLight()
@@ -49,6 +50,10 @@ float WateringMachine::getMoistureAvg()
 }
 bool WateringMachine::init()
 {
+    for (std::vector<MiddlewareInterface>::iterator it = this->middlewares.begin(); it != this->middlewares.end(); ++it)
+    {
+        it->init();
+    }
     // inititate the components
     this->light.init();
     for (std::vector<MoistureSensor>::iterator it = this->moistureSensors.begin(); it != this->moistureSensors.end(); ++it)
@@ -57,10 +62,14 @@ bool WateringMachine::init()
     }
     this->pump.init();
     //set initital state
-    this->setState(StateType::IDLE_STATE); //init juz tutaj ma miejsce
+    this->setState(StateType::IDLE_STATE); //state's init is called here
 }
 bool WateringMachine::tick()
 {
+    for (std::vector<MiddlewareInterface>::iterator it = this->middlewares.begin(); it != this->middlewares.end(); ++it)
+    {
+        it->tick();
+    }
     this->light.tick();
     for (std::vector<MoistureSensor>::iterator it = this->moistureSensors.begin(); it != this->moistureSensors.end(); ++it)
     {

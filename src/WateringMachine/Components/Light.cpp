@@ -1,7 +1,7 @@
 #include "Light.h"
-#include <Arduino.h>
 #include "StateMachineInterfaces/SwitchStateMachine.h"
 #include "../Utils/CustomLog.h"
+
 Light::Light(bool onFunc(), bool offFunc(), bool initFunc() ) : SimpleSwitch(onFunc, offFunc, initFunc){};
 bool Light::init()
 {

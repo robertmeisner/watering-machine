@@ -1,5 +1,9 @@
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
+
 // Include custom log library
+
+#include "src/WateringMachine/Utils/DebugLevelEnum.h"
 #include "src/WateringMachine/Utils/CustomLog.h"
 // Include components
 #include "src/WateringMachine/Components/PulsePump.h"
@@ -13,6 +17,8 @@
 #include "src/WateringMachine/WateringMachine.h"
 
 #include "src/WateringMachine/Utils/CommandLine.h"
+#include "src/WateringMachine/Midleware/MQTT/MQTTMiddleware.h"
+#include "src/WateringMachine/Midleware/Logging/ArduinoLoggingMiddleware.h"
 // include Control Functions used to interface with hardware. Those are injected into Components' constructors.
 // #define WATERING_TEST 1
 #ifdef WATERING_TEST
@@ -20,6 +26,9 @@
 #else
 #include "src/Firmware/Arduino/ControlFunctions.v1.h"
 #endif
+const char *ssid = "UPC2099150";
+const char *password = "vHybcT6ryj8y";
+WiFiClient wifiClient;
 
 // config object instantiated
 WateringMachineConfig config;
@@ -63,6 +72,15 @@ void setup()
 {
     // initialize the serial communication:
     Serial.begin(115200);
+
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.println("Connecting to WiFi..");
+    }
+    Serial.println("Connected to the WiFi network");
+
     cLog("Setting up the Watering Machine");
     const unsigned long ONE_HOUR = 1000 * 60 * 60; // hour constant
 
@@ -82,7 +100,11 @@ void setup()
     static StateFactory sf;
     //create a WateringMachine object
     cLog("Creating WateringMachine object");
-    wateringMachine = new WateringMachine(config, sf, light, pump, sensors);
+    static std::vector<MiddlewareInterface> middlewares;
+    middlewares.push_back(ArduinoLoggingMiddleware());
+    middlewares.push_back(MQTTMiddleware("raspberrypi.local", 1883, "test", "test", wifiClient));
+    wateringMachine = new WateringMachine(config, sf, light, pump, sensors, middlewares);
+
     //init the WateringMachine
     cLog("Initiating WateringMachine object");
     wateringMachine->init();

@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
-// Include custom log library
-#include "../../WateringMachine/Utils/CustomLog.h"
 
 #ifndef ArduinoFunctions_h
 #define ArduinoFunctions_h
@@ -56,9 +54,9 @@ float _readAds(int pin, String sensorName = "")
         delay(50);
     }
     adc = adc / MOISTURE_SENSOR_SAMPLES;
-    cLog("Moisture Sensor| " + sensorName + " Raw Value: " + String(adc),DebugLevel::DEBUG);
+    //Serial.println("Moisture Sensor| " + sensorName + " Raw Value: " + String(adc),DebugLevel::DEBUG);
     float volts = adc * ADS_SCALE_FACTOR;
-    cLog("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts),DebugLevel::DEBUG);
+    //Serial.println("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts),DebugLevel::DEBUG);
     if (sensorName == "Sensor #1")
     {
         adc = constrain(adc, sensorRawWetValue1, sensorRawDryValue1); // Keep the ranges!

@@ -1,6 +1,7 @@
 #ifndef CustomDebug_h
-#include <Arduino.h>
 #include "./DebugLevelEnum.h"
+#include <string>
+#include <iostream>
 #define CustomDebug_h
 static DebugLevel currentDebugLevel = DebugLevel::INFO;
 /**
@@ -14,12 +15,7 @@ void cLogSetDebugLevel(DebugLevel v);
  * @param  {DebugLevel} v  : 
  */
 void cLog(const char *message, DebugLevel v = DebugLevel::INFO);
-/**
- * 
- * @param  {String} message : 
- * @param  {DebugLevel} v   : 
- */
-void cLog(const String message, DebugLevel v = DebugLevel::INFO);
+
 /**
  * 
  * @param  {std::string} message : 

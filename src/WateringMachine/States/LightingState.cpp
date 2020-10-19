@@ -13,11 +13,11 @@ const char *LightingState::getName()
 }
 bool LightingState::handleWatering()
 {
-    this->context->light.turnOff();
+    this->context->light->turnOff();
 
-    if (!this->context->light.isOn())
+    if (!this->context->light->isOn())
     {
-        if (this->context->pump.start())
+        if (this->context->pump->start())
         {
             cLog("Changing state from LightingState to WateringState");
             this->context->setState(StateType::WATERING_STATE);
@@ -34,8 +34,8 @@ bool LightingState::handleLighting()
 bool LightingState::handleIdle()
 {
     cLog("LightingState::handleIdle", DebugLevel::DEBUG);
-    this->context->light.turnOff();
-    if (!this->context->light.isOn())
+    this->context->light->turnOff();
+    if (!this->context->light->isOn())
     {
         cLog("Changing state from LightingState to IdleState");
         this->context->setState(StateType::IDLE_STATE);
@@ -50,14 +50,14 @@ bool LightingState::handleIdle()
 bool LightingState::init()
 {
     cLog("Initiating the LightingState");
-    return this->context->light.turnOn();
+    return this->context->light->turnOn();
 };
 bool LightingState::tick()
 {
     int sensorsAvg = this->context->getMoistureAvg();
-    if (this->context->light.getDurationSinceLastChange() > this->context->config.LIGHTING_DURATION)
+    if (this->context->light->getDurationSinceLastChange() > this->context->config->LIGHTING_DURATION)
     {
-        cLog("Ligting duration exceeded the LIGHTING_DURATION: " + String(this->context->light.getDurationSinceLastChange()) + '>' + String(this->context->config.LIGHTING_DURATION));
+        cLog("Ligting duration exceeded the LIGHTING_DURATION",DebugLevel::DEBUG);
         return this->handleIdle();
     }
     return true;

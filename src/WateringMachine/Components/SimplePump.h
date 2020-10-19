@@ -12,15 +12,16 @@ public:
    * @param  {bool(*)()} stopFunc         : 
    * @param  {bool(*)()=nullptr} initFunc : 
    */
-  SimplePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)() = nullptr);
+  SimplePump(bool (*startFunc)(), bool (*stopFunc)(), bool (*initFunc)() = nullptr, unsigned long (*timeFunc)() = nullptr);
 
   bool start();
   bool stop();
   unsigned long getDurationSinceLastChange();
   bool init();
-  bool tick(){};
+  bool tick();
 
 protected:
+  unsigned long (*_timeFunc)();
   bool (*_startFunc)();
   bool (*_stopFunc)();
   bool (*_initFunc)();

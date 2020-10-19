@@ -12,9 +12,9 @@ const char *WateringState::getName()
 }
 bool WateringState::handleLighting()
 {
-    if (this->context->pump.stop())
+    if (this->context->pump->stop())
     {
-        if (this->context->light.turnOn())
+        if (this->context->light->turnOn())
         {
             cLog("Changing state from WateringState to LightingState");
             this->context->setState(StateType::LIGHTING_STATE);
@@ -27,27 +27,27 @@ bool WateringState::handleWatering()
 {
     //do nothing?
     cLog("Watering can't be handled when watering", DebugLevel::WARNING);
+    return false;
 }
 
 bool WateringState::handleIdle()
 {
-    cLog("Changing WateringState to IdleState..");
-    if (this->context->pump.stop())
+    if (this->context->pump->stop())
     {
-        cLog("Changing state from WateringState to IdleState");
+        cLog("Changing state from WateringState to IdleState", DebugLevel::DEBUG);
         this->context->setState(StateType::IDLE_STATE);
         return true;
     }
+    return false;
 }
 bool WateringState::init()
 {
     cLog("Initiating the WateringState");
-    if (!this->context->pump.start())
+    if (!this->context->pump->start())
     {
-        cLog("Couldn't start the pump, switching back to Idle state.");
+        cLog("Couldn't start the pump, switching back to Idle state.", DebugLevel::WARNING);
         return this->handleIdle();
     }
-    cLog("Initiating of the WateringState has finished");
     return true;
 }
 bool WateringState::tick()
@@ -58,21 +58,19 @@ bool WateringState::tick()
 
     float sensorsAvg = this->context->getMoistureAvg();
     //if avg moisture is higher than WATERING_STOP_TRESHOLD stop Watering and go Idle
-    if (sensorsAvg > (this->context->config.WATERING_STOP_TRESHOLD))
+    if (sensorsAvg > (this->context->config->WATERING_STOP_TRESHOLD))
     {
-        cLog(String("Moisture is over WATERING_STOP_TRESHOLD: ") + String(sensorsAvg) + ">" + String(this->context->config.WATERING_STOP_TRESHOLD), DebugLevel::DEBUG);
+        cLog(("Moisture is over WATERING_STOP_TRESHOLD: "), DebugLevel::DEBUG);
         //cLog( (this->context->config['MOISTURE_TRESHOLD']);
         cLog("Stopping Watering");
         return this->handleIdle();
     }
-    else if (this->context->pump.getDurationSinceLastChange() > this->context->config.WATERING_MAX_DURATION)
+    else if (this->context->pump->getDurationSinceLastChange() > this->context->config->WATERING_MAX_DURATION)
     {
-        cLog(String("Watering takes too long. Watering duration is over WATERING_MAX_DURATION:") + String(this->context->pump.getDurationSinceLastChange()) + ">" + this->context->config.WATERING_MAX_DURATION, DebugLevel::DEBUG);
+        cLog("Watering takes too long. Watering duration is over WATERING_MAX_DURATION", DebugLevel::DEBUG);
         cLog("Stopping Watering");
         return this->handleIdle();
     }
-    String str=String("Moisture sensor is below WATERING_STOP_TRESHOLD: ")  + sensorsAvg + String("<") + this->context->config.WATERING_STOP_TRESHOLD;
-    str+=" "+String("Watering duration is below WATERING_MAX_DURATION ") + this->context->pump.getDurationSinceLastChange() + String("<") + sensorsAvg + String("<") + this->context->config.WATERING_MAX_DURATION;
-    cLog(str, DebugLevel::DEBUG);
+    cLog("Moisture sensor is below WATERING_STOP_TRESHOLD and WATERING_MAX_DURATION. continuing...", DebugLevel::DEBUG);
     return true;
 }

@@ -112,4 +112,7 @@ bool lightInitFunc()
     lightOffFunc();
     return true;
 }
+unsigned long timeFunction(){
+    return millis();
+}
 #endif

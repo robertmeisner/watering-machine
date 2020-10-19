@@ -15,7 +15,7 @@ public:
      * @param  {bool} offFunc()          : function used to turn the Light off
      * @param  {bool} initFunc()=nullptr : function used to init turn the Light
      */
-    Light(bool onFunc(),bool offFunc(),bool initFunc()=nullptr);
+    Light(bool onFunc(),bool offFunc(),bool initFunc()=nullptr, unsigned long (*timeFunc)() = nullptr);
     bool init();
     bool turnOn();
     bool turnOff();
@@ -31,9 +31,9 @@ public:
      * @return {unsigned long}  : time elapsed since last state change - in millis
      */
     unsigned long getDurationSinceLastChange();
-    SwitchStates state = SwitchStates::SWITCH_OFF;
 
 private:
+    unsigned long (*_timeFunc)();
     unsigned long sinceLastChangeChrono;
     /**
      * Sets sinceLastChangeChrono to current timestamp. 

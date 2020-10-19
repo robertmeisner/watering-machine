@@ -93,8 +93,8 @@ const char *delimiters = ", \n"; //commands can be separated by return, space or
 /*************************************************************************************************************
      your Command Names Here
 */
-const char *addCommandToken = "add";      //Modify here
-const char *subtractCommandToken = "sub"; //Modify here
+// const char *addCommandToken = "add";      //Modify here
+// const char *subtractCommandToken = "sub"; //Modify here
 
 /*************************************************************************************************************
     getCommandLineFromSerialPort()
@@ -167,7 +167,7 @@ void nullCommand(char *ptrToCommandName)
 /****************************************************
    Add your commands here
 */
-
+/*
 int addCommand()
 { //Modify here
     int firstOperand = readNumber();
@@ -181,11 +181,11 @@ int subtractCommand()
     int secondOperand = readNumber();
     return firstOperand - secondOperand;
 }
-
+*/
 /****************************************************
    DoMyCommand
 */
-bool DoMyCommand(char *commandLine)
+/*bool DoMyCommand(char *commandLine)
 {
     //  print2("\nCommand: ", commandLine);
     int result;
@@ -210,4 +210,4 @@ bool DoMyCommand(char *commandLine)
             nullCommand(ptrToCommandName);
         }
     }
-}
+}*/

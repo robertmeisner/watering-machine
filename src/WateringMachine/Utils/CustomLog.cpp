@@ -9,33 +9,26 @@ bool cLogShowDebugLevel(DebugLevel v)
 }
 void cLog(const char *message, DebugLevel v /*=DebugLevel::INFO*/)
 {
-    if (!cLogShowDebugLevel)
+    if (!cLogShowDebugLevel(v))
         return;
-    String str = "";
+    std::string str = "";
     str += DebugLevelToString(v);
     str += " - ";
     str += message;
-    Serial.println(str);
+    str += "\n";
+    std::cout << str;
 }
-void cLog(const String message, DebugLevel v /*=DebugLevel::INFO*/)
-{
-    if (!cLogShowDebugLevel)
-        return;
-    String str = "";
-    str += DebugLevelToString(v);
-    str += " - ";
-    str += message;
-    Serial.println(str);
-}
+
 void cLog(const std::string &message, DebugLevel v /*=DebugLevel::INFO*/)
 {
-    if (!cLogShowDebugLevel)
+    if (!cLogShowDebugLevel(v))
         return;
-    String str = "";
+    std::string str = "";
     str += DebugLevelToString(v);
     str += " - ";
     str = message.c_str();
-    Serial.println(str);
+    str += "\n";
+    std::cout << str;
 }
 
 void cLogSetDebugLevel(DebugLevel v)

@@ -1,5 +1,8 @@
 .vscode
+.vs
 .tmp
+out
+build
 # Prerequisites
 *.d
 

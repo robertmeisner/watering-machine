@@ -1,13 +1,13 @@
 #include "SimpleMotor.h"
-#include <Arduino.h>
 #include "../Utils/CustomLog.h"
 // IMPLEMENTATION
 bool SimpleMotorInitMockFunc()
 {
     return true;
 }
-SimpleMotor::SimpleMotor(bool (*startFunc)(int), bool (*stopFunc)(), bool (*changeSpeedFunc)(int), bool (*initFunc)(), int initialSpeed) : MotorStateMachine()
+SimpleMotor::SimpleMotor(bool (*startFunc)(int), bool (*stopFunc)(), bool (*changeSpeedFunc)(int), bool (*initFunc)(), unsigned long (*timeFunc)() , int initialSpeed) : MotorStateMachine()
 {
+    this->_timeFunc = timeFunc;
     this->_startFunc = startFunc;
     this->_stopFunc = stopFunc;
     this->_changeSpeedFunc = changeSpeedFunc;
@@ -27,7 +27,7 @@ bool SimpleMotor::start(int speed)
 
     this->_startFunc(speed);
     this->nextState(MotorCommand::COMMAND_START);
-    this->sinceLastChangeChrono = millis();
+    this->sinceLastChangeChrono = this->_timeFunc();
 
     return this->state == MotorStates::STATE_ON;
 }
@@ -46,13 +46,14 @@ bool SimpleMotor::changeSpeed(int speed)
             }
         }
     }
+    return false;
 }
 bool SimpleMotor::stop()
 {
 
     if (this->_stopFunc())
     {
-        this->sinceLastChangeChrono = millis();
+        this->sinceLastChangeChrono = this->_timeFunc();
         if (this->nextState(MotorCommand::COMMAND_STOP) == MotorStates::STATE_OFF)
             return true;
     }
@@ -61,12 +62,11 @@ bool SimpleMotor::stop()
 }
 unsigned long SimpleMotor::getDurationSinceLastChange()
 {
-    return millis() - this->sinceLastChangeChrono;
+    return this->_timeFunc() - this->sinceLastChangeChrono;
 }
 
 bool SimpleMotor::init()
 {
     cLog("Initiating SimpleMotor");
-    this->_initFunc();
-    cLog("Finished initiating of SimpleMotor");
+    return this->_initFunc();
 }

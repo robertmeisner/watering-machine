@@ -1,5 +1,4 @@
 #include "SwitchStateMachine.h"
-#include "../../Utils/CustomLog.h"
 int SwitchStateMachine::nextState(int command)
 {
     switch (command)

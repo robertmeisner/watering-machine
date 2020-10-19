@@ -2,6 +2,7 @@
 #ifndef MIDDLEWARE_INTERFACE_H
 #define MIDDLEWARE_INTERFACE_H
 class WateringMachine;
+class WateringMachineStateBase;
 /**
  * Abstract class describing common interface of all State Machines.
  */
@@ -15,22 +16,20 @@ public:
    * Initiates the state
    * @return {bool}  : 
    */
-    virtual bool init();
+    virtual bool init(WateringMachine* wm);
     /**
    * Tick method simulates a passage of time.
    * Enables implementation timers or timeouts.
    * @return {bool}  : 
    */
-    inline virtual bool tick();
+    virtual bool tick(WateringMachine* wm);
 
     /**
      * 
      * @return {WateringMachineStateBase*}  : 
      */
-    virtual bool stateChange(StateType nextState);
-    bool setContext(WateringMachine *cont);
+    virtual bool stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
 
 protected:
-    WateringMachine *context;
 };
 #endif

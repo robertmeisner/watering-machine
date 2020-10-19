@@ -1,7 +1,7 @@
 #ifndef ARDUINO_LOGGING_MIDDLEWARE_H
 #define ARDUINO_LOGGING_MIDDLEWARE_H
-#include "../MiddlewareInterface.h"
-#include "../../Utils/DebugLevelEnum.h"
+#include "../../../../WateringMachine/Middleware/MiddlewareInterface.h"
+#include "../../../../WateringMachine/Utils/DebugLevelEnum.h"
 class WateringMachine;
 
 /**
@@ -10,9 +10,9 @@ class WateringMachine;
 class ArduinoLoggingMiddleware : public MiddlewareInterface
 {
 public:
-    bool init();
-    bool tick();
-    bool stateChange(StateType nextState);
+    bool init(WateringMachine* wm);
+    bool tick(WateringMachine* wm);
+    bool stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
     static DebugLevel currentDebugLevel;
 
 private:

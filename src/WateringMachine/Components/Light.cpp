@@ -2,15 +2,19 @@
 #include "StateMachineInterfaces/SwitchStateMachine.h"
 #include "../Utils/CustomLog.h"
 
-Light::Light(bool onFunc(), bool offFunc(), bool initFunc() ) : SimpleSwitch(onFunc, offFunc, initFunc){};
+Light::Light(bool onFunc(), bool offFunc(), bool initFunc(), unsigned long (*timeFunc)() ) : SimpleSwitch(onFunc, offFunc, initFunc)
+{
+    this->_timeFunc = timeFunc;
+};
 bool Light::init()
 {
     cLog("Initiating Light");
+    this->restartTimer();
     return SimpleSwitch::init();
 }
 bool Light::turnOn()
 {
-     cLog("Turning on the Light");
+    cLog("Turning on the Light");
     if (SimpleSwitch::turnOn())
     {
         return this->restartTimer();
@@ -33,10 +37,10 @@ bool Light::isOn()
 bool Light::restartTimer()
 {
     cLog("Restarting the Light timer");
-    this->sinceLastChangeChrono = millis();
+    this->sinceLastChangeChrono = this->_timeFunc();
     return true;
 };
 unsigned long Light::getDurationSinceLastChange()
 {
-    return millis() - this->sinceLastChangeChrono;
+    return this->_timeFunc() - this->sinceLastChangeChrono;
 }

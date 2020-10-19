@@ -6,16 +6,16 @@
 
 #include "States/StateTypeEnum.h"
 #include "WateringMachineConfig.h"
+#include "WateringMachineStats.h"
 
 #include "./Utils/DebugLevelEnum.h"
-
+#include "./Middleware/MiddlewareInterface.h"
 class WateringMachineStateBase;
 class Light;
 struct WateringMachineConfig;
 class MoistureSensor;
 class SimplePump;
 class StateFactory;
-class MiddlewareInterface;
 
 /**
  * Watering Machine main  class. 
@@ -40,7 +40,7 @@ public:
      * @param  {SimplePump} sp                               : Pump component
      * @param  {std::vector<MoistureSensor>} moistureSensors : Vector of moisture sensor components
      */
-    WateringMachine(WateringMachineConfig &doc, StateFactory &sf, Light &l, SimplePump &sp, std::vector<MoistureSensor> &moistureSensors, std::vector<MiddlewareInterface> &middlewares);
+    WateringMachine(WateringMachineConfig *doc, StateFactory *sf, Light *l, SimplePump *sp, std::vector<MoistureSensor *> *moistureSensors, std::vector<MiddlewareInterface *> *middlewares);
 
     /**
      * Attempts to change current state to Lighting.
@@ -72,15 +72,18 @@ public:
      * @return {float}  : moisture level. value from 0 to 100;
      */
     float getMoistureAvg();
+    WateringMachineStats *getCurrentStats();
     WateringMachine *setState(StateType type);
     WateringMachineStateBase *state;
-    WateringMachineConfig &config;
-    Light &light;
-    std::vector<MoistureSensor> &moistureSensors;
-    std::vector<MiddlewareInterface> &middlewares;
-    SimplePump &pump;
-    StateFactory &stateFactory;
-
+    bool setConfig(WateringMachineConfig *conf);
+    WateringMachineConfig *config;
+    WateringMachineStats *lastStats;
+    Light *light;
+    std::vector<MoistureSensor *> *moistureSensors;
+    std::vector<MiddlewareInterface *> *middlewares;
+    SimplePump *pump;
+    StateFactory *stateFactory;
+ 
 private:
 };
 #endif

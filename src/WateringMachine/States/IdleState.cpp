@@ -1,3 +1,4 @@
+#include <string>
 #include "IdleState.h"
 #include "StateFactory.h"
 #include "../WateringMachine.h"
@@ -23,38 +24,40 @@ bool IdleState::handleLighting()
     return this->context->setState(StateType::LIGHTING_STATE)->state->type == StateType::LIGHTING_STATE;
 }
 
-bool IdleState::handleIdle() { cLog("Idle can't be changed to Idle", DebugLevel::WARNING); }
+bool IdleState::handleIdle() { cLog("Idle can't be changed to Idle", DebugLevel::WARNING); return true;}
 bool IdleState::init()
 {
     cLog("Initiating Idle State");
+    return true;
 }
 bool IdleState::tick()
 {
     int sensorsAvg = this->context->getMoistureAvg();
     //if avg moisture is higher than XXX stop Watering
 
-    String json = "JSON = ";
+    std::string json = "JSON = ";
     //serializeJson(this->context->config, json);
     //cLog(json);
 
-    if (sensorsAvg < this->context->config.MOISTURE_TRESHOLD && this->context->config.WATERING_MIN_INTERVAL < this->context->pump.getDurationSinceLastChange())
+    if (sensorsAvg < this->context->config->MOISTURE_TRESHOLD && this->context->config->WATERING_MIN_INTERVAL < this->context->pump->getDurationSinceLastChange())
     {
-        cLog("Moisture under MOISTURE_TRESHOLD: " + String(sensorsAvg) + '<' + String(this->context->config.MOISTURE_TRESHOLD));
+        cLog("Moisture under MOISTURE_TRESHOLD");
         return this->handleWatering();
     }
 
-    else if (this->context->pump.getDurationSinceLastChange() > this->context->config.WATERING_MAX_INTERVAL)
+    else if (this->context->pump->getDurationSinceLastChange() > this->context->config->WATERING_MAX_INTERVAL)
     {
-        cLog("Moisture duration since last change: " + String(this->context->pump.getDurationSinceLastChange()) + '>' + String(this->context->config.WATERING_MAX_INTERVAL));
+        cLog("Moisture duration since last change over WATERING_MAX_INTERVAL");
         return this->handleWatering();
     }
-    else if (this->context->light.getDurationSinceLastChange() > this->context->config.LIGHTING_INTERVAL)
+    else if (this->context->light->getDurationSinceLastChange() > this->context->config->LIGHTING_INTERVAL)
     {
-        cLog(String("Time passed since last ligting is higher than LIGHTING_INTERVAL: ") + String(this->context->light.getDurationSinceLastChange()) + String('>') + String(this->context->config.LIGHTING_INTERVAL));
+        cLog("Time passed since last ligting is higher than LIGHTING_INTERVAL");
         return this->handleLighting();
     }
-    else if (sensorsAvg > this->context->config.MOISTURE_TRESHOLD)
+    else if (sensorsAvg > this->context->config->MOISTURE_TRESHOLD)
     {
-        cLog("Moisture over MOISTURE_TRESHOLD: " + String(sensorsAvg) + '>' + String(this->context->config.MOISTURE_TRESHOLD));
+        cLog("Moisture over MOISTURE_TRESHOLD");
     }
+    return true;
 }

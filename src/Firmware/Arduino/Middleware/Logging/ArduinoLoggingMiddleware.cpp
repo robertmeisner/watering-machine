@@ -1,11 +1,12 @@
 #include <Arduino.h>
 #include "ArduinoLoggingMiddleware.h"
 DebugLevel ArduinoLoggingMiddleware::currentDebugLevel= DebugLevel::INFO;
-bool ArduinoLoggingMiddleware::init(){
-
+bool ArduinoLoggingMiddleware::init(WateringMachine* wm){
+    Serial.println("ArduinoLoggingMiddleware initiated.");
 };
 
-bool ArduinoLoggingMiddleware::tick(){};
+bool ArduinoLoggingMiddleware::tick(WateringMachine* wm){
+};
 
 void ArduinoLoggingMiddleware::log(String message, int logType)
 {
@@ -18,7 +19,7 @@ void ArduinoLoggingMiddleware::log(String message, int logType)
     str += mystring;
     Serial.println(str);
 };
-bool ArduinoLoggingMiddleware::stateChange(StateType nextState){
+bool ArduinoLoggingMiddleware::stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState){
 
 };
 bool ArduinoLoggingMiddleware::showDebugLevel(DebugLevel v){

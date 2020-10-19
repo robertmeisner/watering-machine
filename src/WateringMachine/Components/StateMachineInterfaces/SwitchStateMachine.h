@@ -3,13 +3,13 @@
 #define SWITCH_STATE_MACHINE_H
 enum SwitchStates
 {
-  SWITCH_OFF,
-  SWITCH_ON
+  SWITCH_OFF=0,
+  SWITCH_ON=1
 };
 enum SwitchCommand
 {
-  COMMAND_ON,
-  COMMAND_OFF
+  COMMAND_OFF=0,
+  COMMAND_ON=1
 };
 class SwitchStateMachine : public StateMachine
 {

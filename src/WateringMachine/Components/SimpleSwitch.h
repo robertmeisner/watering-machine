@@ -17,7 +17,7 @@ public:
    */
   SimpleSwitch(bool onFunc(), bool offFunc(), bool initFunc() = nullptr);
   bool init();
-  bool tick(){};
+  bool tick(){return true;};
   bool turnOn();
   bool turnOff();
 

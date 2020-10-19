@@ -1,5 +1,4 @@
 #include "MoistureSensor.h"
-#include <Arduino.h>
 #include "../Utils/CustomLog.h"
 bool mockFunc()
 {
@@ -15,7 +14,7 @@ MoistureSensor::MoistureSensor(float readFunc(), bool initFunc())
 }
 float MoistureSensor::read()
 {
-  
+
   if (this->nextState(MoistureSensorCommand::COMMAND_READ) == MoistureSensorStates::STATE_READING)
   {
     float value = 0;
@@ -29,9 +28,10 @@ float MoistureSensor::read()
     {
       this->_moistureReadingNumber = 0;
     }
-
+    std::string str = "MoistureSensor::read() :: ";
+    str += value;
     this->nextState(MoistureSensorCommand::COMMAND_FINISHED_READ);
-    cLog("MoistureSensor::read() :: "+String(value), DebugLevel::DEBUG);
+    cLog(str, DebugLevel::DEBUG);
     return this->_moistureReadings[this->_moistureReadingNumber - 1];
   }
   return -1;
@@ -41,8 +41,12 @@ float MoistureSensor::readAvg()
 {
   cLog("Reading the sensor average", DebugLevel::DEBUG);
   this->read();
+  
+  return this->getAvg();;
+}
+float MoistureSensor::getAvg(){
   float avg = 0;
-  for (byte j = 0; j < MOISTURE_READINGS_COUNT; ++j)
+  for (int j = 0; j < MOISTURE_READINGS_COUNT; ++j)
   {
     avg += this->_moistureReadings[j];
   }
@@ -79,7 +83,7 @@ bool MoistureSensor::init()
   if (this->_initFunc())
   {
     //set all values to full wet
-    for (byte j = 0; j < MOISTURE_READINGS_COUNT; j++)
+    for (int j = 0; j < MOISTURE_READINGS_COUNT; j++)
     {
       this->_moistureReadings[j] = 100.0;
     }
@@ -87,6 +91,7 @@ bool MoistureSensor::init()
   }
   return false;
 }
-bool MoistureSensor::tick(){
-  
+bool MoistureSensor::tick()
+{
+  return true;
 }

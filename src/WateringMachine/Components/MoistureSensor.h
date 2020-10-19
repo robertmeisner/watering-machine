@@ -37,10 +37,15 @@ public:
    */
   float read();
   /**
-   * reads a moisture level and returns mean value of last 8 moisture readings.
+   * reads a moisture level and returns mean value of last MOISTURE_READINGS_COUNT moisture readings.
    * @return {float}  : Mean value of last 8 readings
    */
   float readAvg();
+   /**
+   *  returns mean value of last MOISTURE_READINGS_COUNT moisture readings.
+   * @return {float}  : Mean value of last 8 readings
+   */
+  float getAvg();
   bool init();
   bool tick();
 

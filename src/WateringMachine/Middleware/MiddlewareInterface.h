@@ -22,13 +22,13 @@ public:
    * Enables implementation timers or timeouts.
    * @return {bool}  : 
    */
-    virtual bool tick(WateringMachine* wm);
+    virtual bool tick();
 
     /**
      * 
      * @return {WateringMachineStateBase*}  : 
      */
-    virtual bool stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
+    virtual bool stateChange(WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
 
 protected:
 };

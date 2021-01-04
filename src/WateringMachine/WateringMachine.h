@@ -72,18 +72,19 @@ public:
      * @return {float}  : moisture level. value from 0 to 100;
      */
     float getMoistureAvg();
-    WateringMachineStats *getCurrentStats();
+    WateringMachineStats *getStats();
     WateringMachine *setState(StateType type);
     WateringMachineStateBase *state;
     bool setConfig(WateringMachineConfig *conf);
     WateringMachineConfig *config;
     WateringMachineStats *lastStats;
+    StateFactory *stateFactory;
     Light *light;
+    SimplePump *pump;
+
     std::vector<MoistureSensor *> *moistureSensors;
     std::vector<MiddlewareInterface *> *middlewares;
-    SimplePump *pump;
-    StateFactory *stateFactory;
- 
+
 private:
 };
 #endif

@@ -22,8 +22,12 @@ static Adafruit_ADS1115 ads;
 static bool sensorsInitiated = false;
 static int sensorRawDryValue1 = 26180;
 static int sensorRawWetValue1 = 11436;
-static int sensorRawDryValue2 = 26920;
+static int sensorRawDryValue2 = 26180;
 static int sensorRawWetValue2 = 11526;
+static int sensorRawDryValue3 = 26180;
+static int sensorRawWetValue3 = 11526;
+static int sensorRawDryValue4 = 26180;
+static int sensorRawWetValue4 = 11526;
 #define MOISTURE_SENSOR_SAMPLES 6
 #define ADS_GAIN GAIN_ONE              // change to GAIN_TWOTHIRDS if using 5V!!!!
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
@@ -32,6 +36,8 @@ static int sensorRawWetValue2 = 11526;
 #define LIGHTS_PIN 13
 #define SENSOR1_PIN 0
 #define SENSOR2_PIN 1
+#define SENSOR3_PIN 2
+#define SENSOR4_PIN 3
 
 bool sensorInitFunc()
 {
@@ -62,10 +68,20 @@ float _readAds(int pin, String sensorName = "")
         adc = constrain(adc, sensorRawWetValue1, sensorRawDryValue1); // Keep the ranges!
         adc = map(adc, sensorRawWetValue1, sensorRawDryValue1, 100, 0);
     }
-    else
+     if (sensorName == "Sensor #2")
     {
         adc = constrain(adc, sensorRawWetValue2, sensorRawDryValue2); // Keep the ranges!
         adc = map(adc, sensorRawWetValue2, sensorRawDryValue2, 100, 0);
+    }
+     if (sensorName == "Sensor #3")
+    {
+        adc = constrain(adc, sensorRawWetValue3, sensorRawDryValue3); // Keep the ranges!
+        adc = map(adc, sensorRawWetValue3, sensorRawDryValue3, 100, 0);
+    }
+     if (sensorName == "Sensor #4")
+    {
+        adc = constrain(adc, sensorRawWetValue4, sensorRawDryValue4); // Keep the ranges!
+        adc = map(adc, sensorRawWetValue4, sensorRawDryValue4, 100, 0);
     }
     return adc;
 }
@@ -77,6 +93,14 @@ float Sensor1ReadFunc()
 float Sensor2ReadFunc()
 {
     return _readAds(SENSOR2_PIN, "Sensor #2");
+}
+float Sensor3ReadFunc()
+{
+    return _readAds(SENSOR3_PIN, "Sensor #3");
+}
+float Sensor4ReadFunc()
+{
+    return _readAds(SENSOR4_PIN, "Sensor #4");
 }
 
 bool startPumpFunc()

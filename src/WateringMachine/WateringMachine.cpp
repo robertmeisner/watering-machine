@@ -27,21 +27,26 @@ bool WateringMachine::turnWatering()
 }
 WateringMachine *WateringMachine::setState(StateType type)
 {
+    if (this->state != nullptr)
+    {
+        this->lastStats->statePrevious = this->state->getName();
+    }
     WateringMachineStateBase *oldState = this->state;
     this->state = this->stateFactory->getState(type, this);
     this->state->init();
     for (std::vector<MiddlewareInterface *>::iterator it = this->middlewares->begin(); it != this->middlewares->end(); ++it)
     {
-        (*it)->stateChange(this, oldState, this->state);
+        (*it)->stateChange(oldState, this->state);
     }
-    delete (oldState);
+    delete oldState;
     return this;
 }
 bool WateringMachine::setConfig(WateringMachineConfig *conf)
 {
-    WateringMachineConfig *oldConfig = this->config;
-    this->config = conf;
-    delete (oldConfig);
+    //copies right object to the left object so we should have nono memory leak
+    *this->config = *conf;
+    //std::cout << conf->WATERING_STOP_TRESHOLD;
+    //std::cout << this->config->WATERING_STOP_TRESHOLD;
     return true;
 }
 float WateringMachine::getMoistureAvg()
@@ -86,7 +91,7 @@ bool WateringMachine::tick()
 {
     for (std::vector<MiddlewareInterface *>::iterator it = this->middlewares->begin(); it != this->middlewares->end(); ++it)
     {
-        (*it)->tick(this);
+        (*it)->tick();
     }
     this->light->tick();
     for (std::vector<MoistureSensor *>::iterator it = this->moistureSensors->begin(); it != this->moistureSensors->end(); ++it)
@@ -97,18 +102,28 @@ bool WateringMachine::tick()
     this->state->tick();
     return true;
 }
-WateringMachineStats *WateringMachine::getCurrentStats()
+WateringMachineStats *WateringMachine::getStats()
 {
-    this->lastStats->wateringOn = this->pump->state == PumpStates::STATE_ON;
+    this->lastStats->pumpOn = this->pump->state == PumpStates::STATE_ON;
+    this->lastStats->pumpDurationSinceLastChange = this->pump->getDurationSinceLastChange();
     this->lastStats->lightOn = this->light->isOn();
-    this->lastStats->stateName = this->state->getName();
+    this->lastStats->lightDurationSinceLastChange = this->light->getDurationSinceLastChange();
+    this->lastStats->state = this->state->getName();
+    this->lastStats->averageMoisture = this->getMoistureAvg();
+
     int jj = 0;
     for (std::vector<MoistureSensor *>::iterator it = this->moistureSensors->begin(); it != this->moistureSensors->end(); ++it)
     {
         this->lastStats->moistureSensorActive[jj] = true;
         this->lastStats->moistureSensorReadings[jj] = (*it)->getAvg();
+        //std::cout << "average 1 sens---------";
+        //std::cout << this->lastStats->moistureSensorReadings[jj];
+        //std::cout << "\n";
         jj++;
     }
+    //std::cout << "sensors---------";
+    //std::cout << jj;
+    //std::cout << "\n";
     return this->lastStats;
 }
 /**

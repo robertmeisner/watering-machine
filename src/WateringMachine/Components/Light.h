@@ -34,7 +34,7 @@ public:
 
 private:
     unsigned long (*_timeFunc)();
-    unsigned long sinceLastChangeChrono;
+    unsigned long sinceLastChangeChrono=0;
     /**
      * Sets sinceLastChangeChrono to current timestamp. 
      * @return {bool}  : true if successful

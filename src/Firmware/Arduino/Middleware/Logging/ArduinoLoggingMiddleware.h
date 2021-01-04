@@ -11,8 +11,8 @@ class ArduinoLoggingMiddleware : public MiddlewareInterface
 {
 public:
     bool init(WateringMachine* wm);
-    bool tick(WateringMachine* wm);
-    bool stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
+    bool tick();
+    bool stateChange(WateringMachineStateBase* oldState, WateringMachineStateBase* nextState);
     static DebugLevel currentDebugLevel;
 
 private:

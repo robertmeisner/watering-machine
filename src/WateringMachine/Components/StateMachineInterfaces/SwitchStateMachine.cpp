@@ -1,4 +1,7 @@
 #include "SwitchStateMachine.h"
+SwitchStateMachine::SwitchStateMachine(){
+    this->state = SwitchStates::SWITCH_OFF;
+}
 int SwitchStateMachine::nextState(int command)
 {
     switch (command)

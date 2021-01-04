@@ -23,7 +23,7 @@ public:
    */
   WateringMachineStateBase(WateringMachine *context);
   // Class destructor for WateringMachineStateBase (Declared as virtual)
-  ~WateringMachineStateBase() {}
+  virtual ~WateringMachineStateBase();
   //maybe do it pure virtual?
   virtual const char *getName();
   ;

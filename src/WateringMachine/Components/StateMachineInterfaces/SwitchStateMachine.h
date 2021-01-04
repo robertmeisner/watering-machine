@@ -3,20 +3,19 @@
 #define SWITCH_STATE_MACHINE_H
 enum SwitchStates
 {
-  SWITCH_OFF=0,
-  SWITCH_ON=1
+  SWITCH_OFF = 0,
+  SWITCH_ON = 1
 };
 enum SwitchCommand
 {
-  COMMAND_OFF=0,
-  COMMAND_ON=1
+  COMMAND_OFF = 0,
+  COMMAND_ON = 1
 };
 class SwitchStateMachine : public StateMachine
 {
 public:
-  SwitchStateMachine() {}
-  int state = SwitchStates::SWITCH_OFF;
-  /**
+  SwitchStateMachine();
+  /*
    * Turns on the device
    * @return {bool}  : true if succesful, false otherwise
    */

@@ -4,16 +4,28 @@
 struct WateringMachineStats
 {
     WateringMachineStats() : averageMoisture(100),
-                             stateName("undefined"),
-                             wateringOn(false),
-                             lightOn(false)
+                             statePrevious(""),
+                             state(""),
+                             pumpOn(false),
+                             lightOn(false),
+                            pumpDurationSinceLastChange(0),
+                            lightDurationSinceLastChange(0)
     {
+        for(int i=0;i<10;i++){
+            this->moistureSensorActive[i]=false;
+            this->moistureSensorReadings[i]=0.0;
+        }
     }
     bool moistureSensorActive[10];
     float moistureSensorReadings[10];
     float averageMoisture;
-    bool wateringOn;
+    std::string statePrevious;
+    std::string state;
+    bool pumpOn;
     bool lightOn;
-    std::string stateName;
+    unsigned long pumpDurationSinceLastChange;
+    unsigned long lightDurationSinceLastChange;
+   
+    
 };
 #endif

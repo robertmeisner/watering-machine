@@ -7,12 +7,12 @@ bool MiddlewareInterface::init(WateringMachine* wm) {
     return false;
  }
 
-bool MiddlewareInterface::tick(WateringMachine* wm) {
+bool MiddlewareInterface::tick() {
     std::cout << ("MiddlewareInterface tick.");
     return false;
  }
 
- bool MiddlewareInterface::stateChange(WateringMachine* wm,WateringMachineStateBase* oldState, WateringMachineStateBase* nextState) {
+ bool MiddlewareInterface::stateChange(WateringMachineStateBase* oldState, WateringMachineStateBase* nextState) {
      std::cout << ("MiddlewareInterface stateChange.");
      return false;
 }

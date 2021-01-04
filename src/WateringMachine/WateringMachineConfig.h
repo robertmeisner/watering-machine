@@ -14,8 +14,8 @@
 const unsigned long ONE_HOUR = 1000 * 60 * 60; // hour constant
 struct WateringMachineConfig
 {
-  WateringMachineConfig() : LIGHTING_INTERVAL(ONE_HOUR*16),
-                            LIGHTING_DURATION(ONE_HOUR * 8),
+  WateringMachineConfig() : LIGHTING_INTERVAL(ONE_HOUR*12),
+                            LIGHTING_DURATION(ONE_HOUR * 12),
                             WATERING_MAX_DURATION(ONE_HOUR / 2),
                             WATERING_MAX_INTERVAL(ONE_HOUR * 24 * 7),
                             WATERING_MIN_INTERVAL(ONE_HOUR),

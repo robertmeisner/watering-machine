@@ -1,5 +1,6 @@
 #include "WateringMachineStateBase.h"
 WateringMachineStateBase::WateringMachineStateBase( ) {}
+WateringMachineStateBase::~WateringMachineStateBase( ) {}
 WateringMachineStateBase::WateringMachineStateBase( WateringMachine* wm) : context(wm){}
 const char* WateringMachineStateBase::getName() { return "";  }
 bool WateringMachineStateBase::handleWatering(){ return true; };

@@ -1,6 +1,5 @@
 #include <Arduino.h>
-//https://community.platformio.org/t/if-condition-on-different-boards/7932
-#define WATERING_ESP32 1
+#define WATERING_ESP8266 1
 #ifdef WATERING_ESP32
 #include <WiFi.h>
 #endif
@@ -10,30 +9,30 @@
 
 // Include custom log library
 
-#include "src/WateringMachine/Utils/DebugLevelEnum.h"
-#include "src/WateringMachine/Utils/CustomLog.h"
+#include "WateringMachine/Utils/DebugLevelEnum.h"
+#include "WateringMachine/Utils/CustomLog.h"
 // Include components
-#include "src/WateringMachine/Components/PulsePump.h"
-#include "src/WateringMachine/Components/Light.h"
-#include "src/WateringMachine/Components/MoistureSensor.h"
+#include "WateringMachine/Components/PulsePump.h"
+#include "WateringMachine/Components/Light.h"
+#include "WateringMachine/Components/MoistureSensor.h"
 // include State factory (class geenrating states of Watering Machine)
-#include "src/WateringMachine/States/StateFactory.h"
+#include "WateringMachine/States/StateFactory.h"
 // include config class
-#include "src/WateringMachine/WateringMachineConfig.h"
+#include "WateringMachine/WateringMachineConfig.h"
 // include Watering Machine
-#include "src/WateringMachine/WateringMachine.h"
+#include "WateringMachine/WateringMachine.h"
 
-#include "src/Firmware/Arduino/ArduinoCommandLine.h"
-#include "src/Firmware/Arduino/Middleware/MQTT/ArduinoMQTTMiddleware.h"
-#include "src/Firmware/Arduino/Middleware/Logging/ArduinoLoggingMiddleware.h"
+#include "Firmware/Arduino/ArduinoCommandLine.h"
+#include "Firmware/Arduino/Middleware/MQTT/ArduinoMQTTMiddleware.h"
+#include "Firmware/Arduino/Middleware/Logging/ArduinoLoggingMiddleware.h"
 // include Control Functions used to interface with hardware. Those are injected into Components' constructors.
 // #define WATERING_TEST 1
 #ifdef WATERING_TEST
-#include "src/Firmware/Functions.Test.h"
+#include "Firmware/Functions.Test.h"
 #else
-#include "src/Firmware/Arduino/ControlFunctions.esp8266.h"
+#include "Firmware/Arduino/ControlFunctions.esp8266.h"
 #endif
-#include "src/watering-machine.config.h"
+#include "watering-machine.config.h"
 static WiFiClient wifiClient;
 
 // config object instantiated

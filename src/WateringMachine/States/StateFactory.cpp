@@ -30,6 +30,8 @@ WateringMachineStateBase *StateFactory::getState(StateType type, WateringMachine
 
     default:
     {
+        WateringMachineStateBase *c = new IdleState(m);
+        return c;
         break;
     }
     }

@@ -40,7 +40,7 @@ WateringMachineConfig config;
 // pointer to WateringMachine
 WateringMachine *wateringMachine;
 // create pump object
-static PulsePump pump(startPumpFunc, stopPumpFunc, initPumpFunc, timeFunction); //static so they wont be deleted after setup is detroyed
+static PulsePump pump(startPumpFunc, stopPumpFunc, initPumpFunc, timeFunction,10000,5000); //static so they wont be deleted after setup is detroyed
 // create light object
 static Light light(lightOnFunc, lightOffFunc, lightInitFunc, timeFunction);
 /**

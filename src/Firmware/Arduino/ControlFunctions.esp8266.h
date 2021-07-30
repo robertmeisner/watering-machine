@@ -52,7 +52,6 @@ bool sensorInitFunc()
 float _readAds(int pin, String sensorName = "")
 {
     float adc = 0;
-    int sample_count = 0;
     //additional smoothing
     for (int i = 0; i <= MOISTURE_SENSOR_SAMPLES; i++)
     { 

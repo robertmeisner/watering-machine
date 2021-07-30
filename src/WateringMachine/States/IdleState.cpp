@@ -41,7 +41,7 @@ bool IdleState::tick()
     //TODO should be replaced with timer function
     if (rand() % 15 + 1==15)
     { 
-        int sensorsAvg = this->context->getMoistureAvg();
+        unsigned int sensorsAvg = this->context->getMoistureAvg();
         //if avg moisture is higher than XXX stop Watering
 
         std::string json = "JSON = ";

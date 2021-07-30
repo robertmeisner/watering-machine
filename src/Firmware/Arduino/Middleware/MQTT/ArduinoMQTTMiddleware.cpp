@@ -165,8 +165,9 @@ bool ArduinoMQTTMiddleware::publishStats()
     //delete mqtt_req->config;
     delete mqtt_req->resources;
     //delete mqtt_req->stats;
-    delete[] mqtt_req->command;
-    delete[] mqtt_req->event;
+    //You dont have to delete?  https://stackoverflow.com/questions/14513535/warning-deleting-array-in-load-file-function
+    //delete[] mqtt_req->command;
+    //delete[] mqtt_req->event;
     //delete[] mqtt_req->timestamp;
     delete mqtt_req;
     return true;

@@ -78,6 +78,7 @@ std::string serializeMQTT(MQTTRequestResponse *jsonResponse)
     if (jsonResponse->stats != nullptr)
     {
         stats["averageMoisture"] = jsonResponse->stats->averageMoisture;
+        stats["averageMoisture"] = jsonResponse->stats->waterLevel;
         stats["lightOn"] = jsonResponse->stats->lightOn;
         stats["pumpOn"] = jsonResponse->stats->pumpOn;
         stats["lightDurationSinceLastChange"] = jsonResponse->stats->lightDurationSinceLastChange;

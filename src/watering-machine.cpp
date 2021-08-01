@@ -15,6 +15,7 @@
 #include "WateringMachine/Components/PulsePump.h"
 #include "WateringMachine/Components/Light.h"
 #include "WateringMachine/Components/MoistureSensor.h"
+#include "WateringMachine/Components/WaterLevelSensor.h"
 // include State factory (class geenrating states of Watering Machine)
 #include "WateringMachine/States/StateFactory.h"
 // include config class
@@ -43,6 +44,8 @@ WateringMachine *wateringMachine;
 static PulsePump pump(startPumpFunc, stopPumpFunc, initPumpFunc, timeFunction,10000,5000); //static so they wont be deleted after setup is detroyed
 // create light object
 static Light light(lightOnFunc, lightOffFunc, lightInitFunc, timeFunction);
+
+static WaterLevelSensor waterLevelSensor(WaterLevelDistanceSensorReadFunc,WaterLevelDistanceSensorInitFunc);
 /**
  * Logic of each command.
  * @param  {char*} commandLine : 
@@ -107,7 +110,7 @@ void setup()
     static std::vector<MiddlewareInterface *> middlewares;
     middlewares.push_back(new ArduinoLoggingMiddleware());
     middlewares.push_back(new ArduinoMQTTMiddleware(MQTTHost, MQTTPort, MQTTUser, MQTTPass, &wifiClient, MQTTopicIn, MQTTTopicOut));
-    wateringMachine = new WateringMachine(&config, &sf, &light, &pump, &sensors, &middlewares);
+    wateringMachine = new WateringMachine(&config, &sf, &light, &pump, &sensors,&waterLevelSensor, &middlewares);
 
     //init the WateringMachine
     cLog("Initiating WateringMachine object");

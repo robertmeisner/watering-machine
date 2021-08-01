@@ -33,12 +33,50 @@ static int sensorRawWetValue4 = 11526;
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
 
 #define PUMP_PIN 14
-#define LIGHTS_PIN 13
+#define LIGHTS_PIN 15
 #define SENSOR1_PIN 0
 #define SENSOR2_PIN 1
 #define SENSOR3_PIN 2
 #define SENSOR4_PIN 3
 
+static float waterLevelDistanceSensorDuration, waterLevelDistanceSensorDistance;
+#define WATERLEVELSENSOR_TRIG_PIN 12 //D6
+#define WATERLEVELSENSOR_ECHO_PIN 13 //D7
+const int waterLevelDistanceSensorFullDistance = 3;  
+const int waterLevelDistanceSensorEmptyDistance = 10; 
+
+float WaterLevelDistanceSensorReadFunc()
+{
+    // Clears the trigPin
+    digitalWrite(WATERLEVELSENSOR_TRIG_PIN, LOW);
+    delayMicroseconds(2);
+
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(WATERLEVELSENSOR_TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(WATERLEVELSENSOR_TRIG_PIN, LOW);
+
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    waterLevelDistanceSensorDuration = pulseIn(WATERLEVELSENSOR_ECHO_PIN, HIGH);
+
+    // Calculating the distance
+    waterLevelDistanceSensorDistance = waterLevelDistanceSensorDuration * 0.034 / 2;
+    Serial.print("Distance: ");
+    Serial.println(waterLevelDistanceSensorDistance);
+    // Prints the distance on the Serial Monitor
+    waterLevelDistanceSensorDistance = constrain(waterLevelDistanceSensorDistance, waterLevelDistanceSensorFullDistance, waterLevelDistanceSensorEmptyDistance);
+    waterLevelDistanceSensorDistance = map(waterLevelDistanceSensorDistance, waterLevelDistanceSensorFullDistance, waterLevelDistanceSensorEmptyDistance, 100, 0);
+    Serial.print("WaterLevel: ");
+    Serial.println(waterLevelDistanceSensorDistance);
+    delay(5);
+    return waterLevelDistanceSensorDistance;
+}
+bool WaterLevelDistanceSensorInitFunc()
+{
+    pinMode(WATERLEVELSENSOR_TRIG_PIN, OUTPUT); // Sets the trigPin as an Output
+    pinMode(WATERLEVELSENSOR_ECHO_PIN, INPUT);  // Sets the echoPin as an Input
+    return true;
+}
 bool sensorInitFunc()
 {
     if (!sensorsInitiated)
@@ -60,7 +98,7 @@ float _readAds(int pin, String sensorName = "")
     }
     adc = adc / MOISTURE_SENSOR_SAMPLES;
     //Serial.println("Moisture Sensor| " + sensorName + " Raw Value: " + String(adc),DebugLevel::DEBUG);
-    float volts = adc * ADS_SCALE_FACTOR;
+   // float volts = adc * ADS_SCALE_FACTOR;
     //Serial.println("Moisture Sensor| " + sensorName + " Volts Value: " + String(volts),DebugLevel::DEBUG);
     if (sensorName == "Sensor #1")
     {

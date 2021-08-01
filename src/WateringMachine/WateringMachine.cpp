@@ -2,6 +2,7 @@
 #include "WateringMachineConfig.h"
 #include "Components/Light.h"
 #include "Components/MoistureSensor.h"
+#include "Components/WaterLevelSensor.h"
 #include "Components/SimplePump.h"
 #include "States/WateringMachineStateBase.h"
 #include "States/IdleState.h"
@@ -10,7 +11,7 @@
 #include "Middleware/MiddlewareInterface.h"
 #include <stdio.h>
 
-WateringMachine::WateringMachine(WateringMachineConfig *doc, StateFactory *sf, Light *l, SimplePump *sp, std::vector<MoistureSensor *> *ms, std::vector<MiddlewareInterface *> *mdlwrs) : state(nullptr), config(doc), lastStats((new WateringMachineStats())), stateFactory(sf), light(l), pump(sp), moistureSensors(ms), middlewares(mdlwrs)
+WateringMachine::WateringMachine(WateringMachineConfig *doc, StateFactory *sf, Light *l, SimplePump *sp, std::vector<MoistureSensor *> *ms, WaterLevelSensor *wls, std::vector<MiddlewareInterface *> *mdlwrs) : state(nullptr), config(doc), lastStats((new WateringMachineStats())), stateFactory(sf), light(l), pump(sp), moistureSensors(ms),waterLevelSensor(wls), middlewares(mdlwrs)
 {
 }
 bool WateringMachine::turnLight()
@@ -110,6 +111,7 @@ WateringMachineStats *WateringMachine::getStats()
     this->lastStats->lightDurationSinceLastChange = this->light->getDurationSinceLastChange();
     this->lastStats->state = this->state->getName();
     this->lastStats->averageMoisture = this->getMoistureAvg();
+    this->lastStats->waterLevel=this->waterLevelSensor->readAvg();
 
     int jj = 0;
     for (std::vector<MoistureSensor *>::iterator it = this->moistureSensors->begin(); it != this->moistureSensors->end(); ++it)

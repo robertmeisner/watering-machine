@@ -14,6 +14,7 @@ class WateringMachineStateBase;
 class Light;
 struct WateringMachineConfig;
 class MoistureSensor;
+class WaterLevelSensor;
 class SimplePump;
 class StateFactory;
 
@@ -40,7 +41,7 @@ public:
      * @param  {SimplePump} sp                               : Pump component
      * @param  {std::vector<MoistureSensor>} moistureSensors : Vector of moisture sensor components
      */
-    WateringMachine(WateringMachineConfig *doc, StateFactory *sf, Light *l, SimplePump *sp, std::vector<MoistureSensor *> *moistureSensors, std::vector<MiddlewareInterface *> *middlewares);
+    WateringMachine(WateringMachineConfig *doc, StateFactory *sf, Light *l, SimplePump *sp, std::vector<MoistureSensor *> *moistureSensors, WaterLevelSensor *wls, std::vector<MiddlewareInterface *> *middlewares);
 
     /**
      * Attempts to change current state to Lighting.
@@ -81,8 +82,8 @@ public:
     StateFactory *stateFactory;
     Light *light;
     SimplePump *pump;
-
     std::vector<MoistureSensor *> *moistureSensors;
+    WaterLevelSensor *waterLevelSensor;
     std::vector<MiddlewareInterface *> *middlewares;
 
 private:

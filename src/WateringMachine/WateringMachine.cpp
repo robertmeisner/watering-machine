@@ -84,6 +84,7 @@ bool WateringMachine::init()
         (*it)->init();
     }
     this->pump->init();
+    this->waterLevelSensor->init();
     //set initital state
     this->setState(StateType::IDLE_STATE); //state's init is called here
     return true;
@@ -100,6 +101,7 @@ bool WateringMachine::tick()
         (*it)->tick();
     }
     this->pump->tick();
+    this->waterLevelSensor->tick();
     this->state->tick();
     return true;
 }

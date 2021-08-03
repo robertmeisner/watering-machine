@@ -19,7 +19,7 @@ struct WateringMachineConfig
                             WATERING_MAX_DURATION(ONE_HOUR / 6),
                             WATERING_MAX_INTERVAL(ONE_HOUR * 24 * 7),
                             WATERING_MIN_INTERVAL(ONE_HOUR),
-                            MOISTURE_TRESHOLD(90),
+                            MOISTURE_TRESHOLD(40),
                             MOISTURE_MEASUREMENT_INTERVAL(1000),
                             WATERING_STOP_TRESHOLD(90) {}
   unsigned long LIGHTING_INTERVAL;

@@ -48,9 +48,9 @@ bool IdleState::tick()
         //serializeJson(this->context->config, json);
         //cLog(json);
 
-        if (sensorsAvg < this->context->config->MOISTURE_TRESHOLD && this->context->config->WATERING_MIN_INTERVAL < this->context->pump->getDurationSinceLastChange())
+        if (sensorsAvg < this->context->config->MOISTURE_TRESHOLD && this->context->config->WATERING_MIN_INTERVAL < this->context->pump->getDurationSinceLastChange() && this->context->config->WATERING_MIN_INTERVAL < this->context->light->getDurationSinceLastChange())
         {
-            cLog("Moisture under MOISTURE_TRESHOLD ");
+            cLog("Moisture under MOISTURE_TRESHOLD or WATERING_MIN_INTERVAL is lower than getDurationSinceLastChange of light/pump");
             return this->handleWatering();
         }
 

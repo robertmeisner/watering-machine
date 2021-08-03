@@ -33,7 +33,7 @@ static int sensorRawWetValue4 = 11526;
 #define ADS_SCALE_FACTOR 0.125f / 1000 // adjust scale factor to ADS_GAIN
 
 #define PUMP_PIN 14
-#define LIGHTS_PIN 15
+#define LIGHTS_PIN 16
 #define SENSOR1_PIN 0
 #define SENSOR2_PIN 1
 #define SENSOR3_PIN 2

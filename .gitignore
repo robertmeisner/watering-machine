@@ -43,3 +43,4 @@ build
 *.exe
 *.out
 *.app
+src/Firmware/.DS_Store
